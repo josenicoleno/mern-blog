@@ -1,6 +1,6 @@
 import { Footer } from "flowbite-react"
 import { Link } from "react-router-dom"
-import { BsFacebook, BsGithub, BsInstagram, BsLinkedin} from 'react-icons/bs'
+import { BsFacebook, BsGithub, BsInstagram, BsLinkedin } from 'react-icons/bs'
 
 const FooterComponent = () => {
     return (
@@ -20,7 +20,7 @@ const FooterComponent = () => {
                                 <Footer.Link href="https://josenicoleno.ar/" target="_blank" rel="noopener noreferrer">
                                     josenicoleno.ar
                                 </Footer.Link>
-                                <Footer.Link href="/about" target="_blank" rel="noopener noreferrer">
+                                <Footer.Link href="/about">
                                     José Nicoleno's Blog
                                 </Footer.Link>
                             </Footer.LinkGroup>
@@ -28,11 +28,17 @@ const FooterComponent = () => {
                         <div>
                             <Footer.Title title="Follow me!" />
                             <Footer.LinkGroup col>
+                                <Footer.Link href="https://www.facebook.com/jose.nicoleno/" target="_blank" rel="noopener noreferrer">
+                                    Facebook
+                                </Footer.Link>
                                 <Footer.Link href="https://github.com/josenicoleno" target="_blank" rel="noopener noreferrer">
                                     Github
                                 </Footer.Link>
-                                <Footer.Link href="#">
-                                    Discord
+                                <Footer.Link href="https://www.instagram.com/jose.nicoleno/" target="_blank" rel="noopener noreferrer">
+                                    Instagram
+                                </Footer.Link>
+                                <Footer.Link href="https://www.linkedin.com/in/jose-nicoleno/" target="_blank" rel="noopener noreferrer">
+                                    LinkedIn
                                 </Footer.Link>
                             </Footer.LinkGroup>
                         </div>
@@ -49,14 +55,14 @@ const FooterComponent = () => {
                         </div>
                     </div>
                 </div>
-                <Footer.Divider/>
+                <Footer.Divider />
                 <div className="w-full sm:flex sm:items-center sm:justify-between">
-                    <Footer.Copyright href="#" by="José Nicoleno's blog" year={new Date().getFullYear()}/>
+                    <Footer.Copyright href="#" by="José Nicoleno's blog" year={new Date().getFullYear()} />
                     <div className="flex gap-6 sm:mt-0 mt-5 sm:justify-center">
-                        <Footer.Icon href="#" icon={BsFacebook}/>
-                        <Footer.Icon href="#" icon={BsGithub}/>
-                        <Footer.Icon href="#" icon={BsInstagram}/>
-                        <Footer.Icon href="#" icon={BsLinkedin}/>
+                        <Footer.Icon href="https://www.facebook.com/jose.nicoleno/" icon={BsFacebook} />
+                        <Footer.Icon href="https://github.com/josenicoleno" icon={BsGithub} />
+                        <Footer.Icon href="https://www.instagram.com/jose.nicoleno/" icon={BsInstagram} />
+                        <Footer.Icon href="https://www.linkedin.com/in/jose-nicoleno/" icon={BsLinkedin} />
                     </div>
                 </div>
             </div>
