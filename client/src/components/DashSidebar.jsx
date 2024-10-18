@@ -1,6 +1,6 @@
 import { Sidebar } from 'flowbite-react'
 import { useEffect, useState } from 'react';
-import { HiArrowSmDown, HiArrowSmRight, HiUser } from 'react-icons/hi'
+import { HiArrowSmRight, HiUser } from 'react-icons/hi'
 import { Link, useLocation } from 'react-router-dom';
 
 export default function DashSidebar() {
@@ -15,16 +15,16 @@ export default function DashSidebar() {
         <Sidebar className='w-full md:w-56'>
             <Sidebar.Items>
                 <Sidebar.ItemGroup>
-                    <Link to="/dashboard?tab=profile" as="div">
-                        <Sidebar.Item active={tab === 'profile'} icon={HiUser} label={"User"} labelColor='dark'>
+                    <Sidebar.Item active={tab === 'profile'} icon={HiUser} label={"User"} labelColor='dark'>
+                        <Link to="/dashboard?tab=profile">
                             Profile
-                        </Sidebar.Item>
-                    </Link>
+                        </Link>
+                    </Sidebar.Item>
                     <Sidebar.Item icon={HiArrowSmRight} className='cursor-pointer'>
                         Sign Out
                     </Sidebar.Item>
                 </Sidebar.ItemGroup>
             </Sidebar.Items>
-        </Sidebar>
+        </Sidebar >
     )
 }
