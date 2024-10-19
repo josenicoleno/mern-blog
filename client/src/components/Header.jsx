@@ -27,13 +27,13 @@ const Header = () => {
                     <Button className='w-12 h-10 hidden sm:inline' color='gray' pill onClick={() => dispach(toggleTheme())}>
                         {theme === 'light' ? <FaMoon /> : <FaSun />}
                     </Button>
-                    {currentUser ? (
+                    {currentUser?.profilePicture ? (
                         <Dropdown arrowIcon={false} inline label={<Avatar alt="user" img={currentUser.profilePicture} rounded />}>
                             <Dropdown.Header>
                                 <span className="block text-sm">@{currentUser.username}</span>
                                 <span className="block text-sm truncate font-semibold">{currentUser.email}</span>
                             </Dropdown.Header>
-                            <Link to='/dashboard?=tab=profile'>
+                            <Link to='/dashboard?tab=profile'>
                                 <Dropdown.Item>Profile</Dropdown.Item>
                             </Link>
                             <Dropdown.Divider />
