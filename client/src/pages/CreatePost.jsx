@@ -4,8 +4,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 export default function CreatePost() {
-    const [value, setValue] = useState('');
-    console.log(value)
     return (
         <div className="p-3 max-w-3xl mx-auto min-h-screen">
             <h1 className="text-center text-3xl my-7 font-semibold">
@@ -31,7 +29,7 @@ export default function CreatePost() {
                     <FileInput type='file' accept="image/*" />
                     <Button type='button' gradientDuoTone="purpleToBlue" size="sm" outline >Upload image</Button>
                 </div>
-                <ReactQuill theme="snow" placeholder="Write something" value={value} onChange={setValue} className="h-72 mb-12" required/>
+                <ReactQuill theme="snow" placeholder="Write something..."  className="h-72 mb-12" required/>
                 <Button type="submit" gradientDuoTone="purpleToPink">Publish</Button>
             </form>
         </div>
