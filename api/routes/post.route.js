@@ -14,6 +14,6 @@ router.get("/getposts", getPosts);
 router.get("/post/:slug", getPost);
 router.post("/create", verifyToken, createPost);
 router.put("/update/:postId", verifyToken, updatePost);
-router.delete("/delete/:postId", verifyToken, deletePost);
+router.delete("/delete/:postId/:userId", verifyToken, deletePost);
 
 export default router;
