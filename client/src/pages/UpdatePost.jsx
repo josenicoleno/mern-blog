@@ -80,7 +80,6 @@ export default function UpdatePost() {
     const handleSubmit = async e => {
         e.preventDefault();
         setPublishError(null)
-        console.log(currentUser._id, formData._id)
         try {
             const res = await fetch(`/api/post/update/${formData._id}/${currentUser._id}`, {
                 method: "PUT",
