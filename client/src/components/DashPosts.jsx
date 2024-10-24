@@ -48,17 +48,22 @@ export const DashPosts = () => {
   }
 
   const handleDelete = async () => {
-    setShowModal(false)
-    const res = await fetch(`api/post/delete/${postIdToDelete}/${currentUser._id}`, {
-      method: 'DELETE'
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      console.log(data.message)
-    } else {
-      setUserPost(prev => prev.filter(post => post._id !== postIdToDelete))
+    try {
+      const res = await fetch(`api/post/delete/${postIdToDelete}/${currentUser._id}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message)
+      } else {
+        setUserPost(prev => prev.filter(post => post._id !== postIdToDelete))
+      }
+    } catch (error) {
+      console.log(error.message)
     }
+    setShowModal(false)
   }
+
   return (
     <div className="table-auto overflow-x-auto md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 darkscrollbar-thumb-slate-500">
       {currentUser.isAdmin && userPost.length > 0 ?
