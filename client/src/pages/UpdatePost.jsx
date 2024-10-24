@@ -12,11 +12,18 @@ export default function UpdatePost() {
     const [file, setFile] = useState(null)
     const [imageUploadProgress, setImageUploadProgress] = useState(null);
     const [imageUploadError, setImageUploadError] = useState(null);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        title: '', // Valor inicial vacío
+        category: 'uncategorized', // Valor inicial definido
+        image: '',
+        content: ''
+    });
     const [publishError, setPublishError] = useState(null);
     const navigate = useNavigate();
     const { postId } = useParams();
     const { currentUser } = useSelector(state => state.user)
+    const [cont, setCont] = useState("")
+
     useEffect(() => {
         try {
             const fetchPost = async () => {
@@ -29,8 +36,8 @@ export default function UpdatePost() {
                 if (res.ok) {
                     setPublishError(null)
                     setFormData(data.posts[0])
+                    setCont(data.posts[0].content)
                 }
-
             }
             fetchPost();
         } catch (error) {
@@ -38,7 +45,7 @@ export default function UpdatePost() {
         }
     }, [postId])
 
-    const handledUploadImage = () => {
+    const handleUploadImage = () => {
         try {
             if (!file) {
                 return setImageUploadError('Please select an image')
@@ -100,7 +107,6 @@ export default function UpdatePost() {
             setPublishError('Something went wrong ' + error)
         }
     }
-    console.log(formData)
     return (
         <div className="p-3 max-w-3xl mx-auto min-h-screen">
             <h1 className="text-center text-3xl my-7 font-semibold">
@@ -114,13 +120,14 @@ export default function UpdatePost() {
                         placeholder="Title"
                         required
                         className="flex-1"
-                        onChange={handleChange}
                         value={formData.title}
+                        onChange={(e) => { setFormData({ ...formData, title: e.target.value }) }}
                     />
                     <Select
                         id="category"
-                        onChange={handleChange}
-                        value={formData.category}
+                        itemType="string"
+                        value={formData.category || 'uncategorized'}
+                        onChange={(e) => { setFormData({ ...formData, category: e.target.value }) }}
                     >
                         <option value="uncategorized">Select a category</option>
                         <option value="javascript">JavaScript</option>
@@ -139,7 +146,7 @@ export default function UpdatePost() {
                         gradientDuoTone="purpleToBlue"
                         size="sm"
                         outline
-                        onClick={handledUploadImage}
+                        onClick={handleUploadImage}
                         disabled={imageUploadProgress}
                     >
                         {imageUploadProgress
@@ -160,14 +167,15 @@ export default function UpdatePost() {
                 {formData.image && (
                     <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />
                 )}
-                <ReactQuill
+                {<ReactQuill
                     id="content"
-                    value={formData.content}
                     theme="snow"
                     placeholder="Write something..."
                     className="h-72 mb-12"
                     required
-                    onChange={value => setFormData({ ...formData, content: value })} />
+                    value={formData.content}
+                    onChange={value => setFormData({ ...formData, content: value })}
+                />}
                 <Button type="submit" gradientDuoTone="purpleToPink">Update</Button>
                 {publishError &&
                     <Alert color="failure" className="mt-4">

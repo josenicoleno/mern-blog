@@ -103,4 +103,3 @@ export const updatePost = async (req, res, next) => {
     next(error);
   }
 };
-export const getPost = async (req, res, next) => {};
