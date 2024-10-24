@@ -14,7 +14,7 @@ export const DashUser = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await fetch(`/api/user/getusers`)
+                const res = await fetch(`/api/user/getusers?sort=asc`)
                 const data = await res.json();
                 if (res.ok) {
                     setUsers(data.users)
