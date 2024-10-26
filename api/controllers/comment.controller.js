@@ -1,5 +1,7 @@
 import { errorHandler } from "../utils/error.js";
 import Comment from "../models/comment.model.js";
+import User from "../models/user.model.js";
+import Post from "../models/post.model.js";
 
 export const createComment = async (req, res, next) => {
   try {
@@ -86,6 +88,58 @@ export const deleteComment = async (req, res, next) => {
     }
     await Comment.findByIdAndDelete(req.params.commentId);
     res.status(200).json("Comment has been deleted");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getComments = async (req, res, next) => {
+  if (!req.user.isAdmin) {
+    errorHandler(403, "You are not allowed to edit this comment");
+  }
+  const startIndex = parseInt(req.query.startIndex) || 0;
+  const limit = parseInt(req.query.limit) || 9;
+  const sortDirection = parseInt(req.query.sort === "desc" ? -1 : 1);
+
+  try {
+    const allComments = await Comment.find()
+      .sort({ createdAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+    const comments = await Promise.all(
+      allComments.map(async (comment) => {
+        const user = await User.findById(comment.userId);
+        const { username } = user || {};
+        const post = await Post.findById(comment.postId);
+        const { image, title, category, slug } = post || {};
+        return {
+          ...comment._doc,
+          userUsername: username,
+          postImage: image,
+          postTitle: title,
+          postCategory: category,
+          postSlug: slug,
+        };
+      })
+    );
+
+    const totalComment = await Comment.countDocuments();
+
+    const now = new Date();
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+
+    const totalLastMontComment = await Comment.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+    await res.status(200).json({
+      comments,
+      totalComment,
+      totalLastMontComment,
+    });
   } catch (error) {
     next(error);
   }
