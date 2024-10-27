@@ -34,11 +34,11 @@ export const DashComments = () => {
   const handleShowMore = async () => {
     const startIndex = comments.length;
     try {
-      const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`);
+      const res = await fetch(`/api/comment?startIndex=${startIndex}`);
       const data = await res.json();
       if (res.ok) {
-        setComments(prev => [...prev, ...data.posts]);
-        if (data.posts.length < 9) {
+        setComments(prev => [...prev, ...data.comments]);
+        if (data.comments.length < 9) {
           setShowMore(false);
         }
       }
