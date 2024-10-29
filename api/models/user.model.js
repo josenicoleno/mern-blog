@@ -25,6 +25,21 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    verified: {
+      type: Boolean,
+      default: true,
+    },
+    verifiedToken: {
+      type: String,
+    },
+    banned: {
+      type: Boolean,
+      default: false,
+    },
+    bannedCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

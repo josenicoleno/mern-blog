@@ -13,11 +13,25 @@ const SignUp = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   }
 
+  const isValid = (formData) => {
+    if (formData.username.length < 6 || formData.username.length > 20 || !formData.username) {
+      setErrorMessage('Username must be between 6 and 20 characters long.')
+      return false
+    }
+    if (!formData.email.includes('@') || !formData.email) {
+      setErrorMessage('Please enter a valid email address.')
+      return false
+    }
+    if (formData.password.length < 8 || formData.password.length > 20 || !formData.password) {
+      setErrorMessage('Password must be between 8 and 20 characters long.')
+      return false
+    }
+    return true
+  }
+
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!formData.username || !formData.email || !formData.password) {
-      return setErrorMessage('Please fill out all fields.')
-    }
+    if (!isValid(formData)) return
     try {
       setLoading(true)
       setErrorMessage(null)
@@ -27,7 +41,6 @@ const SignUp = () => {
         body: JSON.stringify(formData)
       })
       const data = await res.json();
-      setLoading(false)
       if (data.success === false) {
         return setErrorMessage(data.message)
       }
@@ -36,6 +49,7 @@ const SignUp = () => {
       }
     } catch (error) {
       setErrorMessage(error.message)
+    } finally {
       setLoading(false)
     }
   }
@@ -55,15 +69,15 @@ const SignUp = () => {
           <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             <div>
               <Label value='Your username' />
-              <TextInput id='username' type='text' placeholder='Username' onChange={handleChange} />
+              <TextInput id='username' required type='text' placeholder='Username' onChange={handleChange} />
             </div>
             <div>
               <Label value='Your email' />
-              <TextInput id='email' type='email' placeholder='name@company.com' onChange={handleChange} />
+              <TextInput id='email' required type='email' placeholder='name@company.com' onChange={handleChange} />
             </div>
             <div>
               <Label value='Your password' />
-              <TextInput id='password' type='password' placeholder='Password' onChange={handleChange} />
+              <TextInput id='password' required type='password' placeholder='Password' onChange={handleChange} />
             </div>
             <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
               {loading ? (
