@@ -23,6 +23,8 @@ export default function UpdatePost() {
     const { postId } = useParams();
     const { currentUser } = useSelector(state => state.user)
     const [cont, setCont] = useState("")
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         try {
@@ -44,6 +46,17 @@ export default function UpdatePost() {
             console.log(error)
         }
     }, [postId])
+
+    useEffect(() => {
+        setLoading(true);
+        const fetchCategories = async () => {
+            const res = await fetch('/api/category/');
+            const data = await res.json();
+            setCategories(data);
+        }
+        fetchCategories();
+        setLoading(false);
+    }, []);
 
     const handleUploadImage = () => {
         try {
@@ -80,13 +93,10 @@ export default function UpdatePost() {
         }
     }
 
-    const handleChange = e => {
-        setFormData({ ...formData, [e.target.id]: e.target.value })
-    }
-
     const handleSubmit = async e => {
         e.preventDefault();
         setPublishError(null)
+        setLoading(true);
         try {
             const res = await fetch(`/api/post/update/${formData._id}/${currentUser._id}`, {
                 method: "PUT",
@@ -105,84 +115,90 @@ export default function UpdatePost() {
             }
         } catch (error) {
             setPublishError('Something went wrong ' + error)
+        } finally {
+            setLoading(false);
         }
     }
     return (
-        <div className="p-3 max-w-3xl mx-auto min-h-screen">
-            <h1 className="text-center text-3xl my-7 font-semibold">
-                Update post
-            </h1>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className="flex flex-col gap-4 sm:flex-row justify-between">
-                    <TextInput
-                        id="title"
-                        type="text"
-                        placeholder="Title"
+        loading ?
+            <div className="flex justify-center items-center h-screen">
+                <Spinner />
+            </div> :
+            <div className="p-3 max-w-3xl mx-auto min-h-screen">
+                <h1 className="text-center text-3xl my-7 font-semibold">
+                    Update post
+                </h1>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 sm:flex-row justify-between">
+                        <TextInput
+                            id="title"
+                            type="text"
+                            placeholder="Title"
+                            required
+                            className="flex-1"
+                            value={formData.title}
+                            onChange={(e) => { setFormData({ ...formData, title: e.target.value }) }}
+                        />
+                        <Select
+                            id="category"
+                            itemType="string"
+                            value={formData.category || 'uncategorized'}
+                            onChange={(e) => { setFormData({ ...formData, category: e.target.value }) }}
+                        >
+                            <option value="uncategorized">Select a category</option>
+                            {categories.map((category) => (
+                                <option key={category._id} value={category.name}>{category.name}</option>
+                            ))}
+                        </Select>
+                    </div>
+                    <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
+                        <FileInput
+                            type='file'
+                            accept="image/*"
+                            onChange={e => setFile(e.target.files[0])}
+                        />
+                        <Button
+                            type='button'
+                            gradientDuoTone="purpleToBlue"
+                            size="sm"
+                            outline
+                            onClick={handleUploadImage}
+                            disabled={imageUploadProgress}
+                        >
+                            {imageUploadProgress
+                                ? <div className="w-16 h-16">
+                                    <CircularProgressbar
+                                        value={imageUploadProgress}
+                                        text={`${imageUploadProgress || 0}%`}
+                                    />
+                                </div>
+                                : 'Upload image'}
+                        </Button>
+                    </div>
+                    {imageUploadError && (
+                        <Alert color="failure" className="mt-4" >
+                            {imageUploadError}
+                        </Alert>
+                    )}
+                    {formData.image && (
+                        <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />
+                    )}
+                    {<ReactQuill
+                        id="content"
+                        theme="snow"
+                        placeholder="Write something..."
+                        className="h-72 mb-12"
                         required
-                        className="flex-1"
-                        value={formData.title}
-                        onChange={(e) => { setFormData({ ...formData, title: e.target.value }) }}
-                    />
-                    <Select
-                        id="category"
-                        itemType="string"
-                        value={formData.category || 'uncategorized'}
-                        onChange={(e) => { setFormData({ ...formData, category: e.target.value }) }}
-                    >
-                        <option value="uncategorized">Select a category</option>
-                        <option value="javascript">JavaScript</option>
-                        <option value="reactjs">React.js</option>
-                        <option value="nextjs">Next.js</option>
-                    </Select>
-                </div>
-                <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
-                    <FileInput
-                        type='file'
-                        accept="image/*"
-                        onChange={e => setFile(e.target.files[0])}
-                    />
-                    <Button
-                        type='button'
-                        gradientDuoTone="purpleToBlue"
-                        size="sm"
-                        outline
-                        onClick={handleUploadImage}
-                        disabled={imageUploadProgress}
-                    >
-                        {imageUploadProgress
-                            ? <div className="w-16 h-16">
-                                <CircularProgressbar
-                                    value={imageUploadProgress}
-                                    text={`${imageUploadProgress || 0}%`}
-                                />
-                            </div>
-                            : 'Upload image'}
-                    </Button>
-                </div>
-                {imageUploadError && (
-                    <Alert color="failure" className="mt-4" >
-                        {imageUploadError}
-                    </Alert>
-                )}
-                {formData.image && (
-                    <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />
-                )}
-                {<ReactQuill
-                    id="content"
-                    theme="snow"
-                    placeholder="Write something..."
-                    className="h-72 mb-12"
-                    required
-                    value={formData.content}
-                    onChange={value => setFormData({ ...formData, content: value })}
-                />}
-                <Button type="submit" gradientDuoTone="purpleToPink">Update</Button>
-                {publishError &&
-                    <Alert color="failure" className="mt-4">
-                        {publishError}
-                    </Alert>
-                }
-            </form>
-        </div>
+                        value={formData.content}
+                        onChange={value => setFormData({ ...formData, content: value })}
+                    />}
+                    <Button type="submit" gradientDuoTone="purpleToPink">Update</Button>
+                    {publishError &&
+                        <Alert color="failure" className="mt-4">
+                            {publishError}
+                        </Alert>
+                    }
+                </form>
+            </div>
     )
 }
