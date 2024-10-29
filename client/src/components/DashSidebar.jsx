@@ -1,6 +1,6 @@
 import { Sidebar } from 'flowbite-react'
 import { useEffect, useState } from 'react';
-import { HiAnnotation, HiArrowSmRight, HiChartPie, HiDocumentText, HiOutlineUserGroup, HiUser } from 'react-icons/hi'
+import { HiAcademicCap, HiAdjustments, HiAnnotation, HiArrowSmRight, HiChartPie, HiDocumentText, HiOutlineUserGroup, HiUser } from 'react-icons/hi'
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signoutSuccess } from '../redux/user/userSlice';
@@ -83,6 +83,15 @@ export default function DashSidebar() {
                                 labelColor='dark'
                                 as='div'>
                                 Comments
+                            </Sidebar.Item>
+                        </Link>
+                        <Link to="/dashboard?tab=categories">
+                            <Sidebar.Item
+                                active={tab === 'categories' || 'categorycreate'}
+                                icon={HiAdjustments}
+                                labelColor='dark'
+                                as='div'>
+                                Categories
                             </Sidebar.Item>
                         </Link>
                     </>
