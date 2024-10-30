@@ -27,7 +27,13 @@ export default function DashUserEdit() {
     const [updateUserSuccess, setUpdateUserSuccess] = useState(null)
     const [updateUserFailure, setUpdateUserFailure] = useState(null)
     const [showModal, setShowModal] = useState(false)
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        isAdmin: false,
+        banned: false,
+    });
     const filePickerRef = useRef();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -204,6 +210,32 @@ export default function DashUserEdit() {
                     placeholder="password"
                     onChange={handleChange}
                 />
+                <div className="flex mb-4 justify-between">
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            id="isAdmin"
+                            className="w-4 h-4"
+                            checked={formData.isAdmin}
+                            onChange={e => setFormData({ ...formData, isAdmin: e.target.checked })}
+                        />
+                        <label htmlFor="isAdmin" className="text-sm">
+                            Is Admin?
+                        </label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            id="banned"
+                            className="w-4 h-4"
+                            checked={formData.banned}
+                            onChange={e => setFormData({ ...formData, banned: e.target.checked })}
+                        />
+                        <label htmlFor="banned" className="text-sm">
+                            Is Banned?
+                        </label>
+                    </div>
+                </div>
                 <Button
                     type="submit"
                     gradientDuoTone="purpleToBlue"

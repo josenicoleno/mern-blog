@@ -39,6 +39,8 @@ export const updateUser = async (req, res, next) => {
           email: req.body.email,
           profilePicture: req.body.profilePicture,
           password: req.body.password,
+          isAdmin: req.body.isAdmin,
+          banned: req.body.banned,  
         },
       },
       { new: true }
