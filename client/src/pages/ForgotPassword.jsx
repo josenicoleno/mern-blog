@@ -1,16 +1,16 @@
-import React, { useState, useEffect  } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSlice'
-import OAuth from '../components/OAuth'
 
-const SignIn = () => {
-  const { currentUser } = useSelector(state => state.user)
+const ForgotPassword = () => {
+
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error: errorMessage } = useSelector(state => state.user)
+  const { currentUser } = useSelector(state => state.user)
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     if (currentUser) {
@@ -24,28 +24,30 @@ const SignIn = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
-      return dispatch(signInFailure('Please fill out all fields.'))
+    if (!formData.email) {
+      return setErrorMessage('Please fill out all fields.')
     }
     try {
-      dispatch(signInStart())
-      const res = await fetch('api/auth/signin', {
+      setLoading(true)
+      const res = await fetch('api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       })
       const data = await res.json();
       if (data.success === false) {
-        return dispatch(signInFailure(data.message))
+        return setErrorMessage(data.message)
       }
       if (res.ok) {
-        dispatch(signInSuccess(data))
-        navigate('/home')
+        navigate('/sign-in')
       }
     } catch (error) {
-      return dispatch(signInFailure(error.message))
+      return setErrorMessage(error.message)
+    } finally {
+      setLoading(false)
     }
   }
+
   return (
     <div className='min-h-screen mt-20'>
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
@@ -64,20 +66,14 @@ const SignIn = () => {
               <Label value='Your email' />
               <TextInput id='email' type='email' placeholder='name@company.com' onChange={handleChange} />
             </div>
-            <div>
-              <Label value='Your password' />
-              <TextInput id='password' type='password' placeholder='*********' onChange={handleChange} />
-            </div>
-            <Link to='/forgot-password' className='text-blue-500 text-sm hover:underline'>Forgot password?</Link>
             <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
               {loading ? (
                 <>
                   <Spinner size='sm' />
                   <span className='pl-3'>Loading...</span>
                 </>
-              ) : "Sign In"}
+              ) : "Reset Password"}
             </Button>
-            <OAuth />
           </form>
           <div className="">
             <span>Don't have an account? </span>
@@ -94,4 +90,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default ForgotPassword

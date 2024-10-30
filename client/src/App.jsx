@@ -15,6 +15,8 @@ import Post from './pages/Post'
 import ScrollToTop from './components/ScrollToTop'
 import Search from './pages/Search'
 import NotFound from './pages/NotFound'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 
 export default function App() {
   return (
@@ -30,6 +32,8 @@ export default function App() {
         <Route path='/sign-up' element={<SignUp />} />
         <Route path='/projects' element={<Projects />} />
         <Route path='/search' element={<Search />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/reset-password/:token' element={<ResetPassword />} />
         <Route element={<PrivateRoutes />}>
           <Route path='/dashboard' element={<Dashboard />} />
         </Route>

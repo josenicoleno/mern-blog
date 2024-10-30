@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import { sendResetPasswordEmail } from "../utils/emails.js";
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -15,16 +16,19 @@ export const signup = async (req, res, next) => {
   )
     return next(errorHandler(400, "All fields are required!"));
 
-  if (password.length < 8 || password.length > 20 ) {
-    return next(errorHandler(400, "Password must be between 8 and 20 characters long."));
+  if (password.length < 8 || password.length > 20) {
+    return next(
+      errorHandler(400, "Password must be between 8 and 20 characters long.")
+    );
   }
   if (!email.includes("@")) {
     return next(errorHandler(400, "Please enter a valid email address."));
   }
   if (username.length < 6 || username.length > 20) {
-    return next(errorHandler(400, "Username must be between 6 and 20 characters long."));
-  } 
-  
+    return next(
+      errorHandler(400, "Username must be between 6 and 20 characters long.")
+    );
+  }
 
   const hashedPassword = bcryptjs.hashSync(password, 10);
   const newUser = new User({
@@ -138,6 +142,75 @@ export const googleAuth = async (req, res, next) => {
         .cookie("access_token", token, { httpOnly: true })
         .json(rest);
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+    const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    await sendResetPasswordEmail(email, resetToken);
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordTokenExpiry = Date.now() + 3600000;
+    await user.save();
+    res.status(200).json({ message: "Email sent" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserByToken = async (req, res, next) => {
+  const { token } = req.params;
+  try {
+    const user = await User.findOne({ resetPasswordToken: token });
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+    if (user.resetPasswordTokenExpiry < Date.now()) {
+      return next(errorHandler(400, "Token expired"));
+    }
+    const {
+      password,
+      resetPasswordToken,
+      resetPasswordTokenExpiry,
+      banned,
+      bannedCount,
+      verified,
+      ...rest
+    } = user._doc;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPassword = async (req, res, next) => {
+  const { email, password } = req.body;
+  const { token } = req.params;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+    if (user.resetPasswordToken !== token) {
+      return next(errorHandler(400, "Invalid token"));
+    }
+    if (user.resetPasswordTokenExpiry < Date.now()) {
+      return next(errorHandler(400, "Token expired"));
+    }
+    user.password = bcryptjs.hashSync(password, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordTokenExpiry = undefined;
+    await user.save();
+    res.status(200).json({ message: "Password reset" });
   } catch (error) {
     next(error);
   }

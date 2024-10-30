@@ -34,7 +34,6 @@ export const newCommentNotification = async (postTitle) => {
   const usersAdminEmail = await User.find({ isAdmin: true }).select("email");
   const html = `<p>A new comment has been posted on your post: ${postTitle}</p>`;
   usersAdminEmail.forEach(async (user) => {
-    console.log(user.email);
     await sendEmail(user.email, "New Comment Alert", html);
   });
 };
