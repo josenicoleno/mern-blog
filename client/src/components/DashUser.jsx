@@ -32,11 +32,12 @@ export const DashUser = () => {
     }, [currentUser._id])
 
     const handleShowMore = async () => {
-        const startIndex = users.length;
         try {
-            const res = await fetch(`/api/user/getusers?startIndex=${startIndex}`);
+            const startIndex = users.length;
+            const res = await fetch(`/api/user/getusers?sort=asc&startIndex=${startIndex}`);
             const data = await res.json();
             if (res.ok) {
+                console.log(data.users)
                 setUsers(prev => [...prev, ...data.users]);
                 if (data.users.length < 9) {
                     setShowMore(false);
@@ -75,6 +76,8 @@ export const DashUser = () => {
                             <Table.HeadCell>Username</Table.HeadCell>
                             <Table.HeadCell>Email</Table.HeadCell>
                             <Table.HeadCell>Admin</Table.HeadCell>
+                            <Table.HeadCell>Banned</Table.HeadCell>
+                            <Table.HeadCell>Edit</Table.HeadCell>
                             <Table.HeadCell>Delete</Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
@@ -100,6 +103,16 @@ export const DashUser = () => {
                                         <span>
                                             {user.isAdmin ? (<FaCheck className='text-green-500' />) : <FaTimes className="text-red-500" />}
                                         </span>
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <span>
+                                            {user.banned ? (<FaCheck className='text-green-500' />) : <FaTimes className="text-red-500" />}
+                                        </span>
+                                    </Table.Cell>
+                                    <Table.Cell>
+                                        <Link className="text-teal-500 hover:underline" to={`/dashboard?tab=userupdate&userId=${user._id}`}>
+                                            Edit
+                                        </Link>
                                     </Table.Cell>
                                     <Table.Cell>
                                         <span

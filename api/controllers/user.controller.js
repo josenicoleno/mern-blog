@@ -7,11 +7,13 @@ export const test = (req, res) => {
 };
 
 export const updateUser = async (req, res, next) => {
-  if (req.user.id !== req.params.userId)
+  if (req.user.id !== req.params.userId && !req.user.isAdmin)
     return next(errorHandler(403, "You are not allowed to update this user"));
   if (req.body.password) {
     if (req.body.password.length < 8 || req.body.password.length > 20)
-      return next(errorHandler(400, "Password must be between 8 and 20 characters"));
+      return next(
+        errorHandler(400, "Password must be between 8 and 20 characters")
+      );
     req.body.password = bcryptjs.hashSync(req.body.password, 10);
   }
   if (req.body.username) {
@@ -75,10 +77,10 @@ export const getUsers = async (req, res, next) => {
   if (!req.user.isAdmin) {
     return next(errorHandler(403, "You are not allowed to see all users"));
   }
-  const startIndex = parseInt(req.query.startIndex || 0);
-  const limit = parseInt(req.query.limit || 9);
-  const sortDirection = req.query.sort === "asc" ? 1 : -1;
   try {
+    const startIndex = parseInt(req.query.startIndex || 0);
+    const limit = parseInt(req.query.limit || 9);
+    const sortDirection = req.query.sort === "asc" ? 1 : -1;
     const users = await User.find()
       .sort({ createdAt: sortDirection })
       .skip(startIndex)
@@ -118,14 +120,8 @@ export const getUser = async (req, res, next) => {
       return next(errorHandler(404, "User not found"));
     }
     const { password, ...rest } = user._doc;
-    res.status(200).json(
-      rest);
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }
-};
-
-export const changePassword = async (req, res, next) => {
-  const { email, password } = req.body;
-  console.log(email, password);
 };

@@ -7,6 +7,7 @@ import { DashUser } from '../components/DashUser';
 import { DashComments } from '../components/DashComment';
 import DashboardComponent from '../components/DashboardComponent';
 import DashCategory from '../components/DashCategory';
+import DashUserEdit from '../components/DashUserEdit';
 
 export default function Dashboard() {
   const location = useLocation();
@@ -29,6 +30,7 @@ export default function Dashboard() {
       {tab === 'profile' && <DashProfile />}
       {/* Users */}
       {tab === 'users' && <DashUser />}
+      {tab === 'userupdate' && <DashUserEdit />}  
       {/* Posts */}
       {tab === 'posts' && <DashPosts />}
       {/* Comments */}

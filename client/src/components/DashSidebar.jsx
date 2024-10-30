@@ -60,7 +60,7 @@ export default function DashSidebar() {
                         </Link>
                         <Link to="/dashboard?tab=users">
                             <Sidebar.Item
-                                active={tab === 'users'}
+                                active={tab === 'users' || tab === 'userupdate'}
                                 icon={HiOutlineUserGroup}
                                 labelColor='dark'
                                 as='div'>
@@ -87,7 +87,7 @@ export default function DashSidebar() {
                         </Link>
                         <Link to="/dashboard?tab=categories">
                             <Sidebar.Item
-                                active={tab === 'categories' || 'categorycreate'}
+                                active={tab === 'categories'}
                                 icon={HiAdjustments}
                                 labelColor='dark'
                                 as='div'>

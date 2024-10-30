@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,11 +6,10 @@ import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSli
 import OAuth from '../components/OAuth'
 
 const SignIn = () => {
-  const { currentUser } = useSelector(state => state.user)
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error: errorMessage } = useSelector(state => state.user)
+  const { currentUser, loading, error: errorMessage } = useSelector(state => state.user)
 
   useEffect(() => {
     if (currentUser) {
