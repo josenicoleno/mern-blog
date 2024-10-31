@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema(
     verifiedToken: {
       type: String,
     },
+    verifiedTokenExpiry: {
+      type: Date,
+    },
     banned: {
       type: Boolean,
       default: false,

@@ -2,7 +2,11 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
-import { sendResetPasswordEmail, sendVerificationEmail } from "../utils/emails.js";
+import {
+  sendResetPasswordEmail,
+  sendVerificationEmail,
+  sendWelcomeEmail,
+} from "../utils/emails.js";
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -40,6 +44,7 @@ export const signup = async (req, res, next) => {
     password: hashedPassword,
     verified: false,
     verifiedToken: verificationToken,
+    verifiedTokenExpiry: Date.now() + 3600000,
   });
 
   try {
@@ -162,7 +167,7 @@ export const forgotPassword = async (req, res, next) => {
       return next(errorHandler(404, "User not found"));
     }
     const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1m",
     });
     await sendResetPasswordEmail(email, resetToken);
     user.resetPasswordToken = resetToken;
@@ -211,13 +216,52 @@ export const resetPassword = async (req, res, next) => {
       return next(errorHandler(400, "Invalid token"));
     }
     if (user.resetPasswordTokenExpiry < Date.now()) {
-      return next(errorHandler(400, "Token expired"));
+      const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      user.resetPasswordToken = resetToken;
+      user.resetPasswordTokenExpiry = Date.now() + 3600000;
+      await user.save();
+      await sendResetPasswordEmail(user.email, resetToken);
+      return next(errorHandler(400, "Token expired. We sent you a new one."));
     }
     user.password = bcryptjs.hashSync(password, 10);
     user.resetPasswordToken = undefined;
     user.resetPasswordTokenExpiry = undefined;
     await user.save();
     res.status(200).json({ message: "Password reset" });
+    await sendPasswordHasBeenReset(user.email, user.username);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const verifyEmail = async (req, res, next) => {
+  const { token } = req.params;
+  try {
+    const user = await User.findOne({ verifiedToken: token });
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+    if (!jwt.verify(token, process.env.JWT_SECRET)) {
+      return next(errorHandler(400, "Invalid token"));
+    }
+    if (user.verifiedTokenExpiry < Date.now()) {
+      const verificationToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      user.verifiedToken = verificationToken;
+      user.verifiedTokenExpiry = Date.now() + 3600000;
+      await user.save();
+      await sendVerificationEmail(user.email, verificationToken);
+      return next(errorHandler(400, "Token expired"));
+    }
+    user.verified = true;
+    user.verifiedToken = undefined;
+    user.verifiedTokenExpiry = undefined;
+    await user.save();
+    res.status(200).json({ message: "Email verified" });
+    await sendWelcomeEmail(user.email, user.username);
   } catch (error) {
     next(error);
   }
