@@ -14,6 +14,8 @@ const SignIn = () => {
   useEffect(() => {
     if (currentUser) {
       navigate('/')
+    } else {
+      dispatch(signInFailure(null))
     }
   }, [currentUser, navigate])
 

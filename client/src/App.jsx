@@ -17,7 +17,7 @@ import Search from './pages/Search'
 import NotFound from './pages/NotFound'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
-
+import VerifyEmail from './pages/VerifyEmail'
 export default function App() {
   return (
     <BrowserRouter>
@@ -34,6 +34,7 @@ export default function App() {
         <Route path='/search' element={<Search />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password/:token' element={<ResetPassword />} />
+        <Route path='/verify-email/:token' element={<VerifyEmail />} />
         <Route element={<PrivateRoutes />}>
           <Route path='/dashboard' element={<Dashboard />} />
         </Route>
