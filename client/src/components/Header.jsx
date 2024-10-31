@@ -111,6 +111,11 @@ const Header = () => {
                             Projects
                         </Link>
                     </Navbar.Link>
+                    <Navbar.Link active={path === "/contact-me"} as={'div'}>
+                        <Link to='/contact-me'>
+                            Contact Me
+                        </Link>
+                    </Navbar.Link>
                 </Navbar.Collapse>
             </Navbar >
         </div >
