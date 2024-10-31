@@ -34,23 +34,35 @@ export default function VerifyEmail() {
 
   return (
     <div className='flex flex-col items-center h-screen'>
-      <h1 className='text-2xl font-bold'>Verify Email</h1>
       <div className='flex flex-col items-center justify-center h-screen'>
+        <div className="max-w-lg mx-auto p-8 text-center">
+          <div className="mb-8">
+            <svg className={`w-16 h-16 mx-auto text-gray-400 dark:text-gray-600 ${success ? '!text-green-500' : '!text-red-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">
+            Verifying email...
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-8">
+            Please wait while we verify your email address...
+          </p>
+        </div>
 
         {
           loading ? (
             <Spinner />
           ) : error ? (
             <div >
-              <h1>{error}</h1>
+              <h1 className='text-2xl font-bold text-red-500'>{error}</h1>
             </div>
           ) : success ? (
             <div >
-              <h1>{success}</h1>
+              <h1 className='text-2xl font-bold text-green-500'>{success}</h1>
             </div>
           ) : (
             <div >
-              <h1>Something went wrong</h1>
+              <h1 className='text-2xl font-bold text-red-500'>Something went wrong</h1>
             </div>
           )
         }
