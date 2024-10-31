@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
-import { sendResetPasswordEmail } from "../utils/emails.js";
+import { sendResetPasswordEmail, sendVerificationEmail } from "../utils/emails.js";
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -24,22 +24,28 @@ export const signup = async (req, res, next) => {
   if (!email.includes("@")) {
     return next(errorHandler(400, "Please enter a valid email address."));
   }
-  if (username.length < 6 || username.length > 20) {
+  if (username.length < 8 || username.length > 20) {
     return next(
-      errorHandler(400, "Username must be between 6 and 20 characters long.")
+      errorHandler(400, "Username must be between 8 and 20 characters long.")
     );
   }
 
+  const verificationToken = jwt.sign({ id: email }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
   const hashedPassword = bcryptjs.hashSync(password, 10);
   const newUser = new User({
     username,
     email,
     password: hashedPassword,
+    verified: false,
+    verifiedToken: verificationToken,
   });
 
   try {
     await newUser.save();
     res.status(200).json({ message: "User created!" });
+    await sendVerificationEmail(newUser.email, verificationToken);
   } catch (error) {
     next(error);
   }
@@ -130,6 +136,7 @@ export const googleAuth = async (req, res, next) => {
         email,
         password: hashedPassword,
         profilePicture: googlePhotoUrl,
+        verified: true,
       });
       await newUser.save();
       const token = jwt.sign(
