@@ -15,6 +15,7 @@ const Header = () => {
     const { currentUser } = useSelector(state => state.user);
     const { theme } = useSelector(state => state.theme);
     const [searchTerm, setSearchTerm] = useState('');
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search)
@@ -23,6 +24,16 @@ const Header = () => {
             setSearchTerm(searchTermFromUrl)
         }
     }, [location.search])
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const res = await fetch('/api/category')
+            const data = await res.json()
+            setCategories(data)
+        }
+        fetchCategories()
+    }, [])
+
 
     const handleSignout = async () => {
         try {
@@ -101,6 +112,13 @@ const Header = () => {
                             Home
                         </Link>
                     </Navbar.Link>
+                    {categories.filter(category => category.inMenu).map(category => (
+                        <Navbar.Link key={category._id} active={path === `/category/${category.name}`} as={'div'}>
+                            <Link to={`/category/${category.name}`}>
+                                {category.name}
+                            </Link>
+                        </Navbar.Link>
+                    ))}
                     <Navbar.Link active={path === "/about"} as={'div'}>
                         <Link to='/about'>
                             About
