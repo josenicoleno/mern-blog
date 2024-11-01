@@ -13,6 +13,7 @@ export default function Search() {
     const location = useLocation();
     const [posts, setPosts] = useState([])
     const [showMore, setShowMore] = useState(false)
+    const [categories, setCategories] = useState([])
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -46,6 +47,15 @@ export default function Search() {
         }
         fetchPosts();
     }, [location.search])
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const res = await fetch('/api/category')
+            const data = await res.json()
+            setCategories(data)
+        }
+        fetchCategories()
+    }, [])
 
     const handleChange = e => {
         if (e.target.id === 'searchTerm')
@@ -95,6 +105,7 @@ export default function Search() {
 
     return (
         <div className='flex flex-col md:flex-row'>
+            {/* Sidebar */}
             <div className='p-7 border-b md:border-r md:min-h-screen border-b-gray-500'>
                 <form
                     onSubmit={handleSubmit}
@@ -127,12 +138,13 @@ export default function Search() {
                             id='category'
                             onChange={handleChange}
                             value={sidebarData.category}
-                        >
+                        >   
                             <option value=''>Select</option>
-                            <option value='uncategorized'>Uncategorized</option>
-                            <option value='reactjs'>React.js</option>
-                            <option value='nextjs'>Next.js</option>
-                            <option value='javascript'>JavaScript</option>
+                            {categories.map(category => (
+                                <option key={category._id} value={category.name}>
+                                    {category.name}
+                                </option>
+                            ))}
                         </Select>
                     </div>
                     <Button
@@ -145,8 +157,11 @@ export default function Search() {
                     </Button>
                 </form>
             </div>
+            {/* Main */}
             <div className='w-full p-7'>
-                <h1 className='text-3xl font-semibold sm:border-b sm:border-gray-500 pb-4'>Post results</h1>
+                <h1 className='text-3xl font-semibold sm:border-b sm:border-gray-500 pb-4'>
+                    Post results
+                </h1>
                 {loading &&
                     <div className='flex justify-center items-center min-h-screen'>
                         <Spinner size='xl' />
@@ -164,7 +179,6 @@ export default function Search() {
                     <p onClick={handleShowMore} className='text-center text-sm text-teal-500 cursor-pointer hover:underline'>Show more</p>
                 }
             </div>
-
         </div>
     )
 }

@@ -19,6 +19,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 import VerifyEmail from './pages/VerifyEmail'
 import ContactMe from './pages/ContactMe'
+import Posts from './pages/Posts'
 export default function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ export default function App() {
         <Route path='/' element={<Home />} />
         <Route path='*' element={<NotFound />} />
         <Route path='/home' element={<Home />} />
+        <Route path='/posts/:category' element={<Posts />} />
         <Route path='/about' element={<About />} />
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
