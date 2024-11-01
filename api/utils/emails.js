@@ -40,3 +40,8 @@ export const newCommentNotification = async (postTitle) => {
     await sendEmail(user.email, "New Comment Alert", html);
   });
 };
+
+export const sendContactEmail = async (to, name, content) => {
+  const html = `<p>${content}</p>`;
+  await sendEmail(to, name, html);
+};
