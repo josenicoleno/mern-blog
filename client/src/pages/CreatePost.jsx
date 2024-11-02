@@ -20,7 +20,7 @@ export default function CreatePost() {
     useEffect(() => {
         const fetchCategories = async () => {
             setLoading(true);
-            const res = await fetch('/api/category/');
+            const res = await fetch(`/api/category/`);
             const data = await res.json();
             setCategories(data);
             setLoading(false);
@@ -72,7 +72,7 @@ export default function CreatePost() {
         setPublishError(null)
         setLoading(true);
         try {
-            const res = await fetch('/api/post/create', {
+            const res = await fetch(`/api/post/create`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
