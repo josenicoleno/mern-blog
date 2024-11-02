@@ -10,6 +10,9 @@ export default defineConfig({
         secure: false,
       },
     },
+    build: {
+      chunkSizeWarningLimit: 10000000,
+    },
   },
   plugins: [react()],
 });
