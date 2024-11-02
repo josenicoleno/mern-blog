@@ -10,6 +10,7 @@ import contactRoutes from "../routes/contact.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import ServerlessHttp from "serverless-http";
+import { Module } from "module";
 
 dotenv.config();
 
@@ -36,10 +37,10 @@ app.use("/api/comment", commentRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/contact", contactRoutes);
 
-/* const __dirname = path.resolve(); */
-app.use(express.static(path.join(__dirname, "/client/dist")));
+const __variableOfChoice = path.resolve();
+app.use(express.static(path.join(__variableOfChoice, "/client/dist")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/client/dist/index.html"));
+  res.sendFile(path.join(__variableOfChoice, "/client/dist/index.html"));
 });
 
 app.use((err, req, res, next) => {
@@ -52,5 +53,7 @@ app.use((err, req, res, next) => {
   });
 });
 
+
 app.use("/.netlify/functions/index", router);
+export default router;
 export const handler = ServerlessHttp(app);
