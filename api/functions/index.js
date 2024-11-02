@@ -1,14 +1,15 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import userRoutes from "./routes/user.route.js";
-import authRoutes from "./routes/auth.route.js";
-import postRoutes from "./routes/post.route.js";
-import commentRoutes from "./routes/comment.route.js";
-import categoryRoutes from "./routes/category.route.js";
-import contactRoutes from "./routes/contact.route.js";
+import userRoutes from "../routes/user.route.js";
+import authRoutes from "../routes/auth.route.js";
+import postRoutes from "../routes/post.route.js";
+import commentRoutes from "../routes/comment.route.js";
+import categoryRoutes from "../routes/category.route.js";
+import contactRoutes from "../routes/contact.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
+import ServerlessHttp from "serverless-http";
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ mongoose
 const __dirname = path.resolve();
 
 const app = express();
+
+const router = express.Router();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -49,3 +52,6 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
+app.use('/.netlify/functions/index', router);
+export const handler = ServerlessHttp(app);
