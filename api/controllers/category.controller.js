@@ -11,8 +11,7 @@ export const getCategories = async (req, res, next) => {
 
 export const createCategory = async (req, res, next) => {
   try {
-    const { name, inMenu } = req.body;
-    const newCategory = new Category({ name, inMenu  });
+    const newCategory = new Category({ ...req.body });
     const savedCategory = await newCategory.save();
     if (!savedCategory) {
       return next(errorHandler(400, "Failed to create category"));
@@ -49,7 +48,6 @@ export const updateCategory = async (req, res, next) => {
     if (!category) {
       return next(errorHandler(404, "Category not found"));
     }
-    const { name, inMenu } = req.body;
     if (!req.user.isAdmin) {
       return next(errorHandler(401, "Unauthorized"));
     }
@@ -58,7 +56,7 @@ export const updateCategory = async (req, res, next) => {
     }
     const updatedCategory = await Category.findByIdAndUpdate(
       categoryId,
-      { name, inMenu },
+      { ...req.body },
       { new: true }
     );
     res.status(200).json(updatedCategory);

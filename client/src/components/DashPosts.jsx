@@ -68,7 +68,15 @@ export const DashPosts = () => {
   return (
     <div className="table-auto overflow-x-auto md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 darkscrollbar-thumb-slate-500">
       {currentUser.isAdmin && userPost.length > 0 ?
-        <>
+        <div className="flex flex-col gap-4">
+          <h1 className='text-2xl font-bold text-gray-800 dark:text-gray-200 self-center'>Posts</h1>
+          {currentUser.isAdmin && (
+            <Link to="/create-post">
+              <Button outline gradientDuoTone="purpleToPink" className="self-start">
+              Create Post
+              </Button>
+            </Link>
+          )}
           <Table hoverable className="shadow-md">
             <Table.Head>
               <Table.HeadCell>Date updated</Table.HeadCell>
@@ -127,7 +135,7 @@ export const DashPosts = () => {
             </button>
           </>
           }
-        </>
+        </div>
         : <p>You have not posts yet!</p>
       }
       <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>

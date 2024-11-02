@@ -53,7 +53,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-
 app.use("/.netlify/functions/index", router);
 export default router;
 export const handler = ServerlessHttp(app);

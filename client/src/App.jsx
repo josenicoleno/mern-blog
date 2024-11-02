@@ -27,7 +27,6 @@ export default function App() {
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='*' element={<NotFound />} />
         <Route path='/home' element={<Home />} />
         <Route path='/posts/:category' element={<Posts />} />
         <Route path='/about' element={<About />} />
@@ -47,6 +46,9 @@ export default function App() {
           <Route path='/update-post/:postId' element={<UpdatePost />} />
         </Route>
         <Route path='/post/:postSlug' element={<Post />} />
+
+        {/* 404 */}
+        <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
     </BrowserRouter>

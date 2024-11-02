@@ -113,8 +113,8 @@ const Header = () => {
                         </Link>
                     </Navbar.Link>
                     {categories.filter(category => category.inMenu).map(category => (
-                        <Navbar.Link key={category._id} active={path === `/posts/${category.name}`} as={'div'}>
-                            <Link to={`/posts/${category.name}`}>
+                        <Navbar.Link key={category._id} active={path === `/search?category=${category.name}`} as={'div'}>
+                            <Link to={`/search?category=${category.name}`}>
                                 {category.name}
                             </Link>
                         </Navbar.Link>

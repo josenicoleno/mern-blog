@@ -28,13 +28,13 @@ export default function Home() {
       <div className="p-3 bg-amber-100 dark:bg-slate-700">
         <CallToAcction />
       </div>
-      <div className="flex flex-col mx-auto p-3 gap-8 py-7">
+      <div className="flex flex-col max-w-6xl mx-auto p-3 gap-8 py-7">
         {posts &&
           <div className="flex flex-col gap-6">
             <h2 className='text-2xl font-semibold text-center'>
               Recent Posts
             </h2>
-            <div className="flex flex-wrap gap-4 justify-center">
+            <div className="flex flex-wrap gap-10 justify-center">
               {posts.map(post =>
                 <PostCard key={post._id} post={post} />
               )}

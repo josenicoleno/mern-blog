@@ -19,10 +19,9 @@ export default function Posts() {
     
     return (
         <div>
-            Posts
-            <div className='w-full p-7'>
-                <h1 className='text-3xl font-semibold sm:border-b sm:border-gray-500 pb-4'>
-                    Post results
+            <div className='min-h-screen p-7'>
+                <h1 className='flex items-center gap-2 text-3xl font-semibold sm:border-b sm:border-gray-500 pb-4'>
+                    Post <p className='text-teal-500'>{category}</p>
                 </h1>
                 {loading &&
                     <div className='flex justify-center items-center min-h-screen'>

@@ -10,6 +10,16 @@ const categorySchema = new mongoose.Schema(
         inMenu: {
             type: Boolean,
             default: false
+        },
+        image: {
+            type: String,
+            default: undefined
+
+        },
+        type: {
+            type: String,
+            enum: ["card", "post"],
+            required: true
         }
     },
     { timestamps: true }
