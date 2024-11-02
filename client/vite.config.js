@@ -12,5 +12,8 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    chunkSizeWarningLimit: 10000000,
+  },
   plugins: [react(), chunkSplitPlugin()],
 });
