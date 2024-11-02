@@ -18,8 +18,6 @@ mongoose
   .then(() => console.log("MongoDB is connected"))
   .catch((err) => console.log(err));
 
-const __dirname = path.resolve();
-
 const app = express();
 
 const router = express.Router();
@@ -37,8 +35,9 @@ app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/contact", contactRoutes);
-app.use(express.static(path.join(__dirname, "/client/dist")));
 
+/* const __dirname = path.resolve(); */
+app.use(express.static(path.join(__dirname, "/client/dist")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "/client/dist/index.html"));
 });
@@ -53,5 +52,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.use('/.netlify/functions/index', router);
+app.use("/.netlify/functions/index", router);
 export const handler = ServerlessHttp(app);
