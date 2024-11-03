@@ -8,9 +8,10 @@ import PostCard from "../components/PostCard"
 export default function Post() {
     const { postSlug } = useParams()
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false)
+    const [error, setError] = useState('')
     const [post, setPost] = useState(null)
     const [recentPost, setRecentPost] = useState(null)
+    const [typePost, setTypePost] = useState(null)
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -25,6 +26,9 @@ export default function Post() {
                 }
                 if (res.ok) {
                     setPost(data.posts[0])
+                    const resCategory = await fetch(`/api/category/?category=${data.posts[0].category}`)
+                    const dataCategory = await resCategory.json();
+                    setTypePost(dataCategory[0]?.type || 'post')
                     setLoading(false)
                     setError(false)
                 }
@@ -52,11 +56,10 @@ export default function Post() {
         recentPost();
     }, [])
 
-    if (loading) return (
-        <div className="flex justify-center items-center min-h-screen">
+    if (loading)
+        return <div className="flex justify-center items-center min-h-screen">
             <Spinner size="xl" />
         </div>
-    )
 
     return (
         <>
@@ -68,25 +71,44 @@ export default function Post() {
                     to={`/search?category=${post?.category}`}
                     className="self-center mt-5"
                 >
-                    <Button color="gray" pill size="xs">{post?.category} </Button>
+                    <Button color="gray" pill size="xs">{post?.category}</Button>
                 </Link>
-                <img
-                    src={post?.image}
-                    alt={post?.title}
-                    className="mt-10 p-3 max-h-[600px] w-full object-cover"
-                />
-                <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
-                    <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
-                    <span className="italic">{post && (post.content.length / 1000 + 1).toFixed(0)} mins read</span>
-                </div>
-                <div className="p-3 max-w-2xl mx-auto w-full post-content" dangerouslySetInnerHTML={{ __html: post?.content }}>
-                </div>
-                <div className="max-w-4xl mx-auto w-full">
-                    <CallToAction />
-                </div>
-                <CommentSection postId={post?._id} />
-
+                {typePost === 'post' ?
+                    <>
+                        <img
+                            src={post?.image}
+                            alt={post?.title}
+                            className="mt-10 p-3 max-h-[600px] w-full object-cover"
+                        />
+                        <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
+                            <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
+                            <span className="italic">{post && (post.content.length / 1000 + 1).toFixed(0)} mins read</span>
+                        </div>
+                        <div className="p-3 max-w-2xl mx-auto w-full post-content" dangerouslySetInnerHTML={{ __html: post?.content }}>
+                        </div>
+                    </>
+                    :
+                    <div className="grid md:grid-cols-2 gap-8 mt-10">
+                        {/* Columna de imagen */}
+                        <div className="flex justify-center items-start">
+                            <img
+                                src={post?.image}
+                                alt={post?.title}
+                                className="max-h-[600px] w-full object-cover rounded-lg"
+                            />
+                        </div>
+                        {/* Columna de contenido */}
+                        <div className="flex flex-col space-y-4">
+                            <div className="post-content" dangerouslySetInnerHTML={{ __html: post?.content }}>
+                            </div>
+                        </div>
+                    </div>
+                }
             </main>
+            <div className="max-w-4xl mx-auto w-full">
+                <CallToAction />
+            </div>
+            <CommentSection postId={post?._id} />
             <div className="flex flex-col justify-center items-center max-w-8xl p-3">
                 <h1 className="text-xl mt-5">Recent articles</h1>
                 <div className="flex flex-wrap gap-5 mt-5 justify-center">

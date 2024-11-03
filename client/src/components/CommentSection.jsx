@@ -132,6 +132,9 @@ export default function CommentSection({ postId }) {
                     </Link>
                 </div>
             }
+            {comments.length === 0 &&
+                <p className='text-sm my-5'>Make the first comment!</p>
+            }
             {currentUser && (
                 <form onSubmit={handleSubmit} className='border border-teal-500 rounded-md p-3'>
                     <Textarea
@@ -158,32 +161,29 @@ export default function CommentSection({ postId }) {
                     }
                 </form>
             )}
-            {comments.length === 0 ?
-                <p className='text-sm my-5'>Make the first comment!</p>
-                : (
-                    <>
-                        <div className='text-sm flex items-center my-5 gap-1'>
-                            <p>Comments</p>
-                            <div className='border border-gray-500 py-1 px-2 rounded-sm'>
-                                <p>{comments.length}</p>
-                            </div>
+            {comments.length > 0 &&
+                <>
+                    <div className='text-sm flex items-center my-5 gap-1'>
+                        <p>Comments</p>
+                        <div className='border border-gray-500 py-1 px-2 rounded-sm'>
+                            <p>{comments.length}</p>
                         </div>
-                        {
-                            comments.map(comment =>
-                                <Comment
-                                    key={comment._id}
-                                    comment={comment}
-                                    onLike={handleLike}
-                                    onEdit={handleEdit}
-                                    onDelete={commentId => {
-                                        setShowModal(true)
-                                        setCommentToDelete(commentId)
-                                    }}
-                                />
-                            )
-                        }
-                    </>
-                )
+                    </div>
+                    {
+                        comments.map(comment =>
+                            <Comment
+                                key={comment._id}
+                                comment={comment}
+                                onLike={handleLike}
+                                onEdit={handleEdit}
+                                onDelete={commentId => {
+                                    setShowModal(true)
+                                    setCommentToDelete(commentId)
+                                }}
+                            />
+                        )
+                    }
+                </>
             }
             <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>
                 <Modal.Header>Delete comment?</Modal.Header>

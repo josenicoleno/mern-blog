@@ -34,9 +34,9 @@ export const DashPosts = () => {
   }, [currentUser._id])
 
   const handleShowMore = async () => {
-    const startIndex = userPost.length;
     try {
-      const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`);
+      const startIndex = userPost.length;
+      const res = await fetch(`/api/post/getposts?startIndex=${startIndex}`);
       const data = await res.json();
       if (res.ok) {
         setUserPost(prev => [...prev, ...data.posts]);

@@ -37,7 +37,6 @@ export const DashUser = () => {
             const res = await fetch(`/api/user/getusers?sort=asc&startIndex=${startIndex}`);
             const data = await res.json();
             if (res.ok) {
-                console.log(data.users)
                 setUsers(prev => [...prev, ...data.users]);
                 if (data.users.length < 9) {
                     setShowMore(false);
