@@ -42,10 +42,10 @@ export default function VerifyEmail() {
             </svg>
           </div>
           <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">
-            Verifying email...
+            Verificando email...
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
-            Please wait while we verify your email address...
+            Espere mientras verificamos su email...
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export default function VerifyEmail() {
             </div>
           ) : (
             <div >
-              <h1 className='text-2xl font-bold text-red-500'>Something went wrong</h1>
+              <h1 className='text-2xl font-bold text-red-500'>Algo salió mal</h1>
             </div>
           )
         }

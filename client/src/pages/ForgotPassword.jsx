@@ -25,7 +25,7 @@ const ForgotPassword = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     if (!formData.email) {
-      return setErrorMessage('Please fill out all fields.')
+      return setErrorMessage('Por favor, complete todos los campos.')
     }
     try {
       setLoading(true)
@@ -50,12 +50,12 @@ const ForgotPassword = () => {
 
   return (
     <div className='min-h-screen mt-20'>
-      <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
+      <div className="flex p-3 max-w-4xl mx-auto flex-col md:flex-row md:items-center gap-5">
         {/* left */}
         <div className="flex-1">
           <Link to='/' className='font-bold dark:text-white text-4xl'>
-            <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>José Nicoleno's</span>
-            Blog
+            Profe
+            <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-black'>Mariano Nicoleno</span>
           </Link>
           <p className='text-sm mt-5'>This is my blogpage. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod tenetur eum soluta. Nam animi blanditiis.</p>
         </div>
@@ -72,12 +72,12 @@ const ForgotPassword = () => {
                   <Spinner size='sm' />
                   <span className='pl-3'>Loading...</span>
                 </>
-              ) : "Reset Password"}
+              ) : "Restablecer contraseña"}
             </Button>
           </form>
           <div className="">
-            <span>Don't have an account? </span>
-            <Link to='/sign-up' className='text-blue-500'>Sign up</Link>
+            <span>No tiene una cuenta? </span>
+            <Link to='/sign-up' className='text-blue-500'>Registrarse</Link>
           </div>
           {errorMessage && (
             <Alert className='mt-5' color='failure' >

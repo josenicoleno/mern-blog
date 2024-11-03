@@ -55,12 +55,12 @@ const SignUp = () => {
   }
   return (
     <div className='min-h-screen mt-20'>
-      <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
+      <div className="flex p-3 max-w-4xl mx-auto flex-col md:flex-row md:items-center gap-5">
         {/* left */}
         <div className="flex-1">
           <Link to='/' className='font-bold dark:text-white text-4xl'>
-            <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>José Nicoleno's</span>
-            Blog
+            Profe
+            <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-black'>Mariano Nicoleno</span>
           </Link>
           <p className='text-sm mt-5'>This is my blogpage. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod tenetur eum soluta. Nam animi blanditiis.</p>
         </div>
@@ -68,16 +68,16 @@ const SignUp = () => {
         <div className="flex-1">
           <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             <div>
-              <Label value='Your username' />
+              <Label value='Tu nombre de usuario' />
               <TextInput id='username' required type='text' placeholder='Username' onChange={handleChange} />
             </div>
             <div>
-              <Label value='Your email' />
+              <Label value='Tu email' />
               <TextInput id='email' required type='email' placeholder='name@company.com' onChange={handleChange} />
             </div>
             <div>
-              <Label value='Your password' />
-              <TextInput id='password' required type='password' placeholder='Password' onChange={handleChange} />
+              <Label value='Tu contraseña' />
+              <TextInput id='password' required type='password' placeholder='contraseña' onChange={handleChange} />
             </div>
             <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
               {loading ? (
@@ -85,13 +85,13 @@ const SignUp = () => {
                   <Spinner size='sm' />
                   <span className='pl-3'>Loading...</span>
                 </>
-              ) : "Sign up"}
+              ) : "Registrarse"}
             </Button>
             <OAuth />
           </form>
           <div className="">
-            <span>Have an account?</span>
-            <Link to='/sign-in' className='text-blue-500'> Sign In</Link>
+            <span>¿Tiene una cuenta?</span>
+            <Link to='/sign-in' className='text-blue-500'> Iniciar sesión</Link>
           </div>
           {errorMessage && (
             <Alert className='mt-5' color='failure' >
