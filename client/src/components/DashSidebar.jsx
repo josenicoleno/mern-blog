@@ -14,8 +14,8 @@ export default function DashSidebar() {
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search)
         const tabFromUrl = urlParams.get('tab')
-        if (tabFromUrl) { 
-            setTab(tabFromUrl) 
+        if (tabFromUrl) {
+            setTab(tabFromUrl)
         }
     }, [location.search])
 
@@ -44,7 +44,8 @@ export default function DashSidebar() {
                             icon={HiUser}
                             label={currentUser.isAdmin ? 'Admin' : 'User'}
                             labelColor='dark'
-                            as='div'>
+                            as='div'
+                        >
                             Profile
                         </Sidebar.Item>
                     </Link>
@@ -54,7 +55,8 @@ export default function DashSidebar() {
                                 active={tab === 'dashboard' || !tab}
                                 icon={HiChartPie}
                                 labelColor='dark'
-                                as='div'>
+                                as='div'
+                            >
                                 Dashboard
                             </Sidebar.Item>
                         </Link>
@@ -63,7 +65,8 @@ export default function DashSidebar() {
                                 active={tab === 'users' || tab === 'userupdate'}
                                 icon={HiOutlineUserGroup}
                                 labelColor='dark'
-                                as='div'>
+                                as='div'
+                            >
                                 Users
                             </Sidebar.Item>
                         </Link>
@@ -72,7 +75,8 @@ export default function DashSidebar() {
                                 active={tab === 'posts'}
                                 icon={HiDocumentText}
                                 labelColor='dark'
-                                as='div'>
+                                as='div'
+                            >
                                 Posts
                             </Sidebar.Item>
                         </Link>
@@ -81,19 +85,40 @@ export default function DashSidebar() {
                                 active={tab === 'comments'}
                                 icon={HiAnnotation}
                                 labelColor='dark'
-                                as='div'>
+                                as='div'
+                            >
                                 Comments
                             </Sidebar.Item>
                         </Link>
-                        <Link to="/dashboard?tab=categories">
-                            <Sidebar.Item
-                                active={tab === 'categories'}
-                                icon={HiAdjustments}
-                                labelColor='dark'
-                                as='div'>
-                                Categories
-                            </Sidebar.Item>
-                        </Link>
+                        <Sidebar.Collapse label='Settings' icon={HiAdjustments}>
+                            <Link to="/dashboard?tab=categories">
+                                <Sidebar.Item
+                                    active={tab === 'categories'}
+                                    labelColor='dark'
+                                    as='div'
+                                >
+                                    Categories
+                                </Sidebar.Item>
+                            </Link>
+                            <Link to="/dashboard?tab=about">
+                                <Sidebar.Item
+                                    active={tab === 'about'}
+                                    labelColor='dark'
+                                    as='div'
+                                >
+                                    About
+                                </Sidebar.Item>
+                            </Link>
+                            <Link to="/dashboard?tab=projects">
+                                <Sidebar.Item
+                                    active={tab === 'projects'}
+                                    labelColor='dark'
+                                    as='div'
+                                >
+                                    Projects
+                                </Sidebar.Item>
+                            </Link>
+                        </Sidebar.Collapse>
                     </>
                     }
                     <Sidebar.Item
