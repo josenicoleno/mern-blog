@@ -11,6 +11,7 @@ import paramRoutes from "../routes/param.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import ServerlessHttp from "serverless-http";
+import routerNetlify from "./netlify.route.js";
 
 dotenv.config();
 
@@ -21,7 +22,6 @@ mongoose
 
 const app = express();
 
-const router = express.Router();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -37,6 +37,8 @@ app.use("/api/comment", commentRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/param", paramRoutes);
+app.use("/.netlify/functions/index", routerNetlify);
+
 
 const __variableOfChoice = path.resolve();
 app.use(express.static(path.join(__variableOfChoice, "/client/dist")));
@@ -54,6 +56,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.use("/.netlify/functions/index", router);
-export default router;
 export const handler = ServerlessHttp(app);
