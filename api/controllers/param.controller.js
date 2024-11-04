@@ -2,7 +2,6 @@ import Param from "../models/param.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const createParam = async (req, res, next) => {
-    console.log("body", req.body);
     const param = await Param.create(req.body);
     if (!param) return next(errorHandler(400, "Param not created"));
     res.status(201).json(param);
