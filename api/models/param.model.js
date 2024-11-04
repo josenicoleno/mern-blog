@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const paramSchema = new mongoose.Schema(
   {
-    key: { type: String, required: true },
+    key: { type: String, required: true, unique: true },
     text: { type: String},
     date: { type: Date },
     image: { type: String },
