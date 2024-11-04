@@ -11,7 +11,7 @@ import paramRoutes from "../routes/param.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import ServerlessHttp from "serverless-http";
-import routerNetlify from "./netlify.route.js";
+import routerNetlify from "../routes/netlify.route.js";
 
 dotenv.config();
 
