@@ -7,10 +7,10 @@ import postRoutes from "../routes/post.route.js";
 import commentRoutes from "../routes/comment.route.js";
 import categoryRoutes from "../routes/category.route.js";
 import contactRoutes from "../routes/contact.route.js";
+import paramRoutes from "../routes/param.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import ServerlessHttp from "serverless-http";
-import { Module } from "module";
 
 dotenv.config();
 
@@ -36,6 +36,7 @@ app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/param", paramRoutes);
 
 const __variableOfChoice = path.resolve();
 app.use(express.static(path.join(__variableOfChoice, "/client/dist")));

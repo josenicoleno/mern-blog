@@ -154,7 +154,14 @@ export default function CreatePost() {
                     {formData.image && (
                         <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />
                     )}
-                    <ReactQuill id="content" theme="snow" placeholder="Write something..." className="h-72 mb-12" required onChange={value => setFormData({ ...formData, content: value })} />
+                    <ReactQuill
+                        id="content"
+                        theme="snow"
+                        placeholder="Write something..."
+                        className="h-72 mb-12"
+                        required
+                        onChange={value => setFormData({ ...formData, content: value })}
+                    />
                     <Button type="submit" gradientDuoTone="purpleToPink">Publish</Button>
                     {publishError &&
                         <Alert color="failure" className="mt-4">

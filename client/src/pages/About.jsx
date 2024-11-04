@@ -1,11 +1,31 @@
-import React from 'react'
+import { useEffect, useState } from "react";  
 
-const About = () => {
+export default function About() {
+  const [about, setAbout] = useState("");
+  const [aboutTitle, setAboutTitle] = useState("");
+  useEffect(() => {
+    const fetchAbout = async () => {
+      const res = await fetch(`/api/param/about`);
+      if (res.ok) {
+        const data = await res.json();
+        setAbout(data.text);
+      }
+    };
+    const fetchAboutTitle = async () => {
+      const res = await fetch(`/api/param/aboutTitle`);
+      if (res.ok) {
+        const data = await res.json();
+        setAboutTitle(data.text);
+      }
+    };
+    fetchAbout();
+    fetchAboutTitle();
+  }, []);
   return (
     <div className='min-h-screen flex items-center justify-center'>
       <div className='max-w-2xl mx-auto p-3 text-center'>
         <div>
-          <h1 className='text-3xl font-semibold mx-auto p-3 text-center'>Sobre Mariano Nicoleno</h1>
+          <h1 className='text-3xl font-semibold mx-auto p-3 text-center'>About José Nicoleno</h1>
           <div className='text-md text-gray-500 flex flex-col gap-6'>
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat quis non labore similique nostrum placeat repellendus eius unde quas nam ducimus, saepe veniam rerum officia numquam vero dignissimos tempora fuga.</p>
 
@@ -18,5 +38,3 @@ const About = () => {
     </div>
   )
 }
-
-export default About

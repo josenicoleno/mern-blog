@@ -13,6 +13,7 @@ export default function UpdatePost() {
     const [imageUploadProgress, setImageUploadProgress] = useState(null);
     const [imageUploadError, setImageUploadError] = useState(null);
     const [formData, setFormData] = useState({
+        _id: '',
         title: '', // Valor inicial vacío
         category: 'uncategorized', // Valor inicial definido
         image: '',
@@ -27,36 +28,39 @@ export default function UpdatePost() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        try {
-            const fetchPost = async () => {
+        const fetchPost = async () => {
+            try {
+                setLoading(true);
                 const res = await fetch(`/api/post/getposts?postId=${postId}`);
                 const data = await res.json();
                 if (!res.ok) {
-                    setPublishError(data.message)
-                    return console.log(data.message)
+                    setPublishError(data.message);
+                    return;
                 }
-                if (res.ok) {
-                    setPublishError(null)
-                    setFormData(data.posts[0])
-                    setCont(data.posts[0].content)
-                }
+                setPublishError(null);
+                setFormData(data.posts[0]);
+                setCont(data.posts[0].content);
+            } catch (error) {
+                console.log(error);
+                setPublishError('Error al cargar el post');
+            } finally {
+                setLoading(false);
             }
-            fetchPost();
-        } catch (error) {
-            console.log(error)
-        }
-    }, [postId])
+        };
 
-    useEffect(() => {
-        setLoading(true);
         const fetchCategories = async () => {
-            const res = await fetch('/api/category/');
-            const data = await res.json();
-            setCategories(data);
-        }
+            try {
+                const res = await fetch('/api/category/');
+                const data = await res.json();
+                setCategories(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        // Ejecutar ambas funciones
+        fetchPost();
         fetchCategories();
-        setLoading(false);
-    }, []);
+    }, [postId]);
 
     const handleUploadImage = () => {
         try {

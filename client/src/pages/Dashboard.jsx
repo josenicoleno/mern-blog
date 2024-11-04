@@ -8,7 +8,8 @@ import { DashComments } from '../components/DashComment';
 import DashboardComponent from '../components/DashboardComponent';
 import DashCategory from '../components/DashCategory';
 import DashUserEdit from '../components/DashUserEdit';
-
+import DashAbout from '../components/DashAbout';
+import DashProjects from '../components/DashProjects';
 export default function Dashboard() {
   const location = useLocation();
   const [tab, setTab] = useState('');
@@ -37,6 +38,10 @@ export default function Dashboard() {
       {tab === 'comments' && <DashComments />}
       {/* Categories */}
       {tab === 'categories' && <DashCategory />}
+      {/* About */}
+      {tab === 'about' && <DashAbout />}
+      {/* Projects */}
+      {tab === 'projects' && <DashProjects />}
     </div>
   )
 }
