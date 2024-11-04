@@ -12,6 +12,7 @@ export default function DashCategory() {
         inMenu: false,
         type: "card",
         image: null,
+        order: null,
     });
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -63,6 +64,7 @@ export default function DashCategory() {
                 inMenu: false,
                 type: "card",
                 image: null,
+                order: null,
             });
             setSuccessMessage("Category created successfully");
             setSuccess(true);
@@ -98,6 +100,7 @@ export default function DashCategory() {
                 inMenu: false,
                 type: "card",
                 image: null,
+                order: null,
             });
             setSuccessMessage("Category updated successfully");
             setSuccess(true);
@@ -190,6 +193,7 @@ export default function DashCategory() {
                             inMenu: false,
                             type: "card",
                             image: null,
+                            order: null,
                         })
                     }}
                 >
@@ -201,6 +205,7 @@ export default function DashCategory() {
                         <Table.HeadCell>Image</Table.HeadCell>
                         <Table.HeadCell>In Menu</Table.HeadCell>
                         <Table.HeadCell>Type</Table.HeadCell>
+                        <Table.HeadCell>Order</Table.HeadCell>
                         <Table.HeadCell>Update</Table.HeadCell>
                         <Table.HeadCell>Delete</Table.HeadCell>
                     </Table.Head>
@@ -216,6 +221,7 @@ export default function DashCategory() {
                                 </Table.Cell>
                                 <Table.Cell>{category.inMenu ? (<FaCheck className='text-green-500' />) : <FaTimes className="text-red-500" />}</Table.Cell>
                                 <Table.Cell>{category.type}</Table.Cell>
+                                <Table.Cell>{category.order}</Table.Cell>
                                 <Table.Cell>
                                     <p
                                         className="text-teal-500 cursor-pointer hover:underline"
@@ -227,6 +233,7 @@ export default function DashCategory() {
                                                 inMenu: category.inMenu,
                                                 type: category.type,
                                                 image: category.image,
+                                                order: category.order,
                                             })
                                             setCategoryIdToUpdate(category._id)
                                             setCreateCategory(false)
@@ -322,6 +329,15 @@ export default function DashCategory() {
                                     In Menu?
                                 </label>
                             </div>
+                            {formData.inMenu && (
+                                <TextInput
+                                    id="order"
+                                    type="number"
+                                    placeholder="Order"
+                                    onChange={(e) => setFormData({ ...formData, order: e.target.value })}
+                                    value={formData.order || ""}
+                                />
+                            )}
                             <Button
                                 className='self-center'
                                 type="submit"
@@ -401,6 +417,15 @@ export default function DashCategory() {
                                         In Menu?
                                     </label>
                                 </div>
+                                {formData.inMenu && (
+                                    <TextInput
+                                        id="order"
+                                        type="number"
+                                        placeholder="Order"
+                                        onChange={(e) => setFormData({ ...formData, order: e.target.value })}
+                                        value={formData.order || ""}
+                                    />
+                                )}  
                                 <Button
                                     className='self-center'
                                     type="submit"
