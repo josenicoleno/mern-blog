@@ -22,7 +22,6 @@ mongoose
 
 const app = express();
 
-
 app.use(express.json());
 app.use(cookieParser());
 
@@ -37,13 +36,12 @@ app.use("/api/comment", commentRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/param", paramRoutes);
-app.use("/.netlify/functions/index", routerNetlify);
+app.use("/api/.netlify/functions/index", routerNetlify);
 
-
-const __variableOfChoice = path.resolve();
-app.use(express.static(path.join(__variableOfChoice, "/client/dist")));
+const __html = path.resolve();
+app.use(express.static(path.join(__html, "/client/dist")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__variableOfChoice, "/client/dist/index.html"));
+  res.sendFile(path.join(__html, "/client/dist/index.html"));
 });
 
 app.use((err, req, res, next) => {
