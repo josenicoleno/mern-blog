@@ -10,8 +10,6 @@ import contactRoutes from "../routes/contact.route.js";
 import paramRoutes from "../routes/param.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
-import ServerlessHttp from "serverless-http";
-import routerNetlify from "../routes/netlify.route.js";
 
 dotenv.config();
 
@@ -25,10 +23,6 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
-
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/post", postRoutes);
@@ -36,7 +30,6 @@ app.use("/api/comment", commentRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/param", paramRoutes);
-app.use("/api/.netlify/functions/index", routerNetlify);
 
 const __html = path.resolve();
 app.use(express.static(path.join(__html, "/client/dist")));
@@ -54,5 +47,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-export const handler = ServerlessHttp(app);
-export default app;
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
