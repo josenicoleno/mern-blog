@@ -8,7 +8,12 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getPosts`)
+        const sizeWindow = window.innerWidth;
+        let limit = 9;
+        if (sizeWindow < 768) {
+          limit = 3
+        }
+        const res = await fetch(`/api/post/getPosts?limit=${limit}`)
         const data = await res.json()
         setPosts(data.posts)
       } catch (error) {

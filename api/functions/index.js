@@ -10,7 +10,6 @@ import contactRoutes from "../routes/contact.route.js";
 import paramRoutes from "../routes/param.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
-import ServerlessHttp from "serverless-http";
 
 dotenv.config();
 
@@ -21,14 +20,8 @@ mongoose
 
 const app = express();
 
-const router = express.Router();
-
 app.use(express.json());
 app.use(cookieParser());
-
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
@@ -38,10 +31,10 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/param", paramRoutes);
 
-const __variableOfChoice = path.resolve();
-app.use(express.static(path.join(__variableOfChoice, "/client/dist")));
+const __html = path.resolve();
+app.use(express.static(path.join(__html, "/client/dist")));
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__variableOfChoice, "/client/dist/index.html"));
+  res.sendFile(path.join(__html, "/client/dist/index.html"));
 });
 
 app.use((err, req, res, next) => {
@@ -54,6 +47,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.use("/.netlify/functions/index", router);
-export default router;
-export const handler = ServerlessHttp(app);
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});

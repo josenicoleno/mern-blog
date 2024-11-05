@@ -20,6 +20,10 @@ const categorySchema = new mongoose.Schema(
             type: String,
             enum: ["card", "post"],
             required: true
+        },
+        order: {
+            type: Number,
+            default: 0
         }
     },
     { timestamps: true }

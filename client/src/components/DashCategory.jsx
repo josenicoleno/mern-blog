@@ -12,6 +12,7 @@ export default function DashCategory() {
         inMenu: false,
         type: "card",
         image: null,
+        order: null,
     });
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -63,6 +64,7 @@ export default function DashCategory() {
                 inMenu: false,
                 type: "card",
                 image: null,
+                order: null,
             });
             setSuccessMessage("Category created successfully");
             setSuccess(true);
@@ -98,6 +100,7 @@ export default function DashCategory() {
                 inMenu: false,
                 type: "card",
                 image: null,
+                order: null,
             });
             setSuccessMessage("Category updated successfully");
             setSuccess(true);
@@ -172,8 +175,8 @@ export default function DashCategory() {
 
     return (
         /* Columna 1 */
-        <div className="flex gap-4 p-4 max-w-4xl mx-auto">
-            <div className="flex flex-col flex-1 gap-4 ">
+        <div className="table-auto overflow-x-auto md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 darkscrollbar-thumb-slate-500">
+            <div className="flex flex-col flex-1 gap-4 mb-4">
                 <h1 className='text-2xl font-bold text-gray-800 dark:text-gray-200 self-center'>
                     Categories
                 </h1>
@@ -190,6 +193,7 @@ export default function DashCategory() {
                             inMenu: false,
                             type: "card",
                             image: null,
+                            order: null,
                         })
                     }}
                 >
@@ -201,6 +205,7 @@ export default function DashCategory() {
                         <Table.HeadCell>Image</Table.HeadCell>
                         <Table.HeadCell>In Menu</Table.HeadCell>
                         <Table.HeadCell>Type</Table.HeadCell>
+                        <Table.HeadCell>Order</Table.HeadCell>
                         <Table.HeadCell>Update</Table.HeadCell>
                         <Table.HeadCell>Delete</Table.HeadCell>
                     </Table.Head>
@@ -216,19 +221,21 @@ export default function DashCategory() {
                                 </Table.Cell>
                                 <Table.Cell>{category.inMenu ? (<FaCheck className='text-green-500' />) : <FaTimes className="text-red-500" />}</Table.Cell>
                                 <Table.Cell>{category.type}</Table.Cell>
+                                <Table.Cell>{category.order}</Table.Cell>
                                 <Table.Cell>
                                     <p
                                         className="text-teal-500 cursor-pointer hover:underline"
                                         onClick={() => {
-                                            setUpdateCategory(true)
+                                            setCategoryIdToUpdate(category._id)
                                             setFormData({
                                                 _id: category._id,
                                                 name: category.name,
                                                 inMenu: category.inMenu,
                                                 type: category.type,
                                                 image: category.image,
+                                                order: category.order,
                                             })
-                                            setCategoryIdToUpdate(category._id)
+                                            setUpdateCategory(true)
                                             setCreateCategory(false)
                                         }}
                                     >
@@ -257,11 +264,11 @@ export default function DashCategory() {
             </div>
             {/* Columna 2 */}
             {/* Create Category */}
-            {createCategory &&
+            {(createCategory || updateCategory) &&
                 <div className="flex flex-col gap-4">
-                    <h1 className='text-2xl font-bold text-gray-800 dark:text-gray-200 self-center'>Create Category</h1>
+                    <h1 className='text-2xl font-bold text-gray-800 dark:text-gray-200 self-center'>{updateCategory ? "Update Category" : "Create Category"}</h1>
                     <div className="flex flex-col gap-4 p-4">
-                        <form onSubmit={handleSubmitCreateCategory} className="flex flex-col gap-4">
+                        <form onSubmit={updateCategory ? handleSubmitUpdateCategory : handleSubmitCreateCategory} className="flex flex-col gap-4">
                             <TextInput
                                 id="name"
                                 type="text"
@@ -322,6 +329,15 @@ export default function DashCategory() {
                                     In Menu?
                                 </label>
                             </div>
+                            {formData.inMenu && (
+                                <TextInput
+                                    id="order"
+                                    type="number"
+                                    placeholder="Order"
+                                    onChange={(e) => setFormData({ ...formData, order: e.target.value })}
+                                    value={formData.order || ""}
+                                />
+                            )}
                             <Button
                                 className='self-center'
                                 type="submit"
@@ -329,89 +345,9 @@ export default function DashCategory() {
                                 gradientDuoTone="purpleToBlue"
                                 outline
                             >
-                                Create
+                                {updateCategory ? "Update" : "Create"}
                             </Button>
                         </form>
-                    </div>
-                </div>
-            }
-            {/* Update Category */}
-            {updateCategory &&
-                <div className="flex flex-col gap-4">
-                    <h1 className='text-2xl font-bold text-gray-800 dark:text-gray-200 self-center'>Update Category</h1>
-                    <div className="flex flex-col">
-                        <div className="flex flex-col gap-4 p-4">
-                            <form onSubmit={handleSubmitUpdateCategory} className="flex flex-col gap-4">
-                                <TextInput
-                                    id="name"
-                                    type="text"
-                                    placeholder="Category name"
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    value={formData.name || ""}
-                                />
-                                <Select
-                                    id="type"
-                                    value={formData.type || ""}
-                                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                >
-                                    <option value="card">Card</option>
-                                    <option value="post">Post</option>
-                                </Select>
-                                <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
-                                    <FileInput
-                                        type='file'
-                                        accept="image/*"
-                                        onChange={e => setFile(e.target.files[0])}
-                                    />
-                                    <Button
-                                        type='button'
-                                        gradientDuoTone="purpleToBlue"
-                                        size="sm"
-                                        outline
-                                        onClick={handledUploadImage}
-                                        disabled={imageUploadProgress}
-                                    >
-                                        {imageUploadProgress
-                                            ? <div className="w-16 h-16">
-                                                <CircularProgressbar
-                                                    value={imageUploadProgress}
-                                                    text={`${imageUploadProgress || 0}%`}
-                                                />
-                                            </div>
-                                            : 'Upload image'}
-                                    </Button>
-                                </div>
-                                {imageUploadError && (
-                                    <Alert color="failure" className="mt-4" >
-                                        {imageUploadError}
-                                    </Alert>
-                                )}
-                                {formData.image && (
-                                    <img src={formData.image} alt="upload" className="w-full h-72 object-cover" />
-                                )}
-                                <div className="flex items-center gap-2">
-                                    <Checkbox
-                                        id="inMenu"
-                                        type="checkbox"
-                                        onChange={(e) => setFormData({ ...formData, inMenu: e.target.checked })}
-                                        value={formData.inMenu || ""}
-                                        checked={formData.inMenu}
-                                    />
-                                    <label htmlFor="inMenu" className="text-sm">
-                                        In Menu?
-                                    </label>
-                                </div>
-                                <Button
-                                    className='self-center'
-                                    type="submit"
-                                    disabled={loading}
-                                    gradientDuoTone="purpleToBlue"
-                                    outline
-                                >
-                                    Update
-                                </Button>
-                            </form>
-                        </div>
                     </div>
                 </div>
             }
