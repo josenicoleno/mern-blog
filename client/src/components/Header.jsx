@@ -81,10 +81,12 @@ const Header = () => {
                     />
                 </form>
                 <Button className='w-12 h-10 lg:hidden' color='gray' pill>
-                    <AiOutlineSearch />
+                    <Link to='/search'>
+                        <AiOutlineSearch />
+                    </Link>
                 </Button>
                 <div className="flex gap-2 md:order-2">
-                    <Button className='w-12 h-10 hidden sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}>
+                    <Button className='w-12 h-10 sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}>
                         {theme === 'light' ? <FaMoon /> : <FaSun />}
                     </Button>
                     {currentUser ? (
