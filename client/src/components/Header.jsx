@@ -29,11 +29,10 @@ const Header = () => {
         const fetchCategories = async () => {
             const res = await fetch('/api/category')
             const data = await res.json()
-            setCategories(data)
+            setCategories(data.sort((a, b) => a.order - b.order))
         }
         fetchCategories()
     }, [])
-
 
     const handleSignout = async () => {
         try {
@@ -65,15 +64,14 @@ const Header = () => {
         <div>
             <Navbar className='border-b-2'>
                 <Link to='/' className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
-                    Profe
-                    <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-black'>
-                        Mariano Nicoleno
+                    José
+                    <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-white'>Nicoleno
                     </span>
                 </Link>
                 <form onSubmit={handleSubmit}>
                     <TextInput
                         type='text'
-                        placeholder='Buscar...'
+                        placeholder='Search...'
                         rightIcon={AiOutlineSearch}
                         className='hidden lg:inline'
                         value={searchTerm}
@@ -99,12 +97,12 @@ const Header = () => {
                                 <Dropdown.Item>Perfil</Dropdown.Item>
                             </Link>
                             <Dropdown.Divider />
-                            <Dropdown.Item onClick={handleSignout}>Salir</Dropdown.Item>
+                            <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
                         </Dropdown>
                     ) : (
                         <Link to='/sign-in'>
                             <Button gradientDuoTone='purpleToBlue' outline>
-                                Ingresar
+                                Sign in
                             </Button>
                         </Link>)
                     }
@@ -113,7 +111,7 @@ const Header = () => {
                 <Navbar.Collapse>
                     <Navbar.Link active={path === "/"} as={'div'}>
                         <Link to='/'>
-                            Inicio
+                            Home
                         </Link>
                     </Navbar.Link>
                     {categories.filter(category => category.inMenu).map(category => (
@@ -125,17 +123,12 @@ const Header = () => {
                     ))}
                     <Navbar.Link active={path === "/about"} as={'div'}>
                         <Link to='/about'>
-                            Sobre mí
-                        </Link>
-                    </Navbar.Link>
-                    <Navbar.Link active={path === "/projects"} as={'div'}>
-                        <Link to='/projects'>
-                            Proyectos
+                            About me
                         </Link>
                     </Navbar.Link>
                     <Navbar.Link active={path === "/contact-me"} as={'div'}>
                         <Link to='/contact-me'>
-                            Contactar 
+                            Contact-me
                         </Link>
                     </Navbar.Link>
                 </Navbar.Collapse>
