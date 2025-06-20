@@ -1,0 +1,46 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    env_file: 
+      - .env
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://jose:jose123@mongo:27017/jose-blog?authSource=admin&readPreference=primary&directConnection=true&ssl=false
+      - NODE_ENV=development
+    env_file:
+      - .env
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=jose
+      - MONGO_INITDB_ROOT_PASSWORD=jose123
+      - MONGO_INITDB_DATABASE=jose-blog
+
+volumes:
+  mongo-data:

@@ -1,0 +1,18 @@
+FROM node:21
+
+WORKDIR /app
+
+# Copiar solo los archivos del frontend
+COPY client/package*.json ./
+
+# Instalar dependencias del frontend
+RUN npm install
+
+# Copiar el resto del código del frontend
+COPY client .
+
+# Exponer el puerto usado por Vite
+EXPOSE 5173
+
+# Comando de inicio
+CMD ["npm", "run", "dev"]

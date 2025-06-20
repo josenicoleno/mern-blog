@@ -71,7 +71,7 @@ const Header = () => {
                 <form onSubmit={handleSubmit}>
                     <TextInput
                         type='text'
-                        placeholder='Search...'
+                        placeholder='Searchsdsds...'
                         rightIcon={AiOutlineSearch}
                         className='hidden lg:inline'
                         value={searchTerm}
