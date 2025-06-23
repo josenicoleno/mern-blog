@@ -41,6 +41,15 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=jose
       - MONGO_INITDB_ROOT_PASSWORD=jose123
       - MONGO_INITDB_DATABASE=jose-blog
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./client/dist:/usr/share/nginx/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
 
 volumes:
   mongo-data:
