@@ -14,8 +14,8 @@ const SignUp = () => {
   }
 
   const isValid = (formData) => {
-    if (formData.username.length < 6 || formData.username.length > 20 || !formData.username) {
-      setErrorMessage('Username must be between 6 and 20 characters long.')
+    if (formData.username.length < 8 || formData.username.length > 20 || !formData.username) {
+      setErrorMessage('Username must be between 8 and 20 characters long.')
       return false
     }
     if (!formData.email.includes('@') || !formData.email) {
@@ -59,25 +59,25 @@ const SignUp = () => {
         {/* left */}
         <div className="flex-1">
           <Link to='/' className='font-bold dark:text-white text-4xl'>
-            Profe
-            <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-black'>Mariano Nicoleno</span>
+            José
+            <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-white'>Nicoleno</span>
           </Link>
-          <p className='text-sm mt-5'>This is my blogpage. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod tenetur eum soluta. Nam animi blanditiis.</p>
+          <p className='text-sm mt-5'>Join and share your thoughts with the world.</p>
         </div>
         {/* right */}
         <div className="flex-1">
           <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             <div>
-              <Label value='Tu nombre de usuario' />
+              <Label value='Username' />
               <TextInput id='username' required type='text' placeholder='Username' onChange={handleChange} />
             </div>
             <div>
-              <Label value='Tu email' />
+              <Label value='Email' />
               <TextInput id='email' required type='email' placeholder='name@company.com' onChange={handleChange} />
             </div>
             <div>
-              <Label value='Tu contraseña' />
-              <TextInput id='password' required type='password' placeholder='contraseña' onChange={handleChange} />
+              <Label value='Password' />
+              <TextInput id='password' required type='password' placeholder='*********' onChange={handleChange} />
             </div>
             <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
               {loading ? (
@@ -85,13 +85,13 @@ const SignUp = () => {
                   <Spinner size='sm' />
                   <span className='pl-3'>Loading...</span>
                 </>
-              ) : "Registrarse"}
+              ) : "Sign up"}
             </Button>
             <OAuth />
           </form>
           <div className="">
-            <span>¿Tiene una cuenta?</span>
-            <Link to='/sign-in' className='text-blue-500'> Iniciar sesión</Link>
+            <span>Have an account?</span>
+            <Link to='/sign-in' className='text-blue-500'> Sign in</Link>
           </div>
           {errorMessage && (
             <Alert className='mt-5' color='failure' >

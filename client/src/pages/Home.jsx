@@ -26,9 +26,9 @@ export default function Home() {
   return (
     <div>
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold lg:text-6xl">Bienvenido a mi Blog</h1>
-        <p className="text-gray-500 text-xs sm:text-sm">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus, veritatis? Aut maxime, minus voluptatem provident molestiae magnam, incidunt tenetur eum ratione iusto tempore voluptas qui exercitationem sunt repudiandae totam sit.</p>
-        <Link to='/search' className='text-xs sm:text-sm text-teal-500 hover:underline font-bold'>Ver todos los posts</Link>
+        <h1 className="text-3xl font-bold lg:text-6xl">Welcome! </h1>
+        <p className="text-gray-500 text-xs sm:text-sm">Join and share your thoughts with the world.</p>
+        <Link to='/search' className='text-xs sm:text-sm text-teal-500 hover:underline font-bold'>View all posts</Link>
       </div>
       <div className="p-3 bg-amber-100 dark:bg-slate-700">
         <CallToAcction />
@@ -37,14 +37,14 @@ export default function Home() {
         {posts &&
           <div className="flex flex-col gap-6">
             <h2 className='text-2xl font-semibold text-center'>
-              Posts recientes
+              Recent Posts
             </h2>
             <div className="flex flex-wrap gap-10 justify-center">
               {posts.map(post =>
                 <PostCard key={post._id} post={post} />
               )}
             </div>
-            <Link to={'/search'} className='text-lg text-teal-500 hover:underline text-center'>Ver todos los posts</Link>
+            <Link to={'/search'} className='text-lg text-teal-500 hover:underline text-center'>View all posts</Link>
           </div>
         }
       </div>

@@ -53,10 +53,10 @@ const SignIn = () => {
         {/* left */}
         <div className="flex-1">
           <Link to='/' className='font-bold dark:text-white text-4xl'>
-            Profe
-            <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-black'>Mariano Nicoleno</span>
+            José
+            <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-white'>Nicoleno</span>
           </Link>
-          <p className='text-sm mt-5'>This is my blogpage. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod tenetur eum soluta. Nam animi blanditiis.</p>
+          <p className='text-sm mt-5'>Join and share your thoughts with the world.</p>
         </div>
         {/* right */}
         <div className="flex-1">
@@ -69,20 +69,20 @@ const SignIn = () => {
               <Label value='Your password' />
               <TextInput id='password' type='password' placeholder='*********' onChange={handleChange} />
             </div>
-            <Link to='/forgot-password' className='text-blue-500 text-sm hover:underline'>¿Olvidaste tu contraseña?</Link>
+            <Link to='/forgot-password' className='text-blue-500 text-sm hover:underline'>Do you forgot your password?</Link>
             <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
               {loading ? (
                 <>
                   <Spinner size='sm' />
-                  <span className='pl-3'>Cargando...</span>
+                  <span className='pl-3'>Loading...</span>
                 </>
-              ) : "Iniciar sesión"}
+              ) : "Sign in"}
             </Button>
             <OAuth />
           </form>
           <div className="">
-            <span>No tiene una cuenta? </span>
-            <Link to='/sign-up' className='text-blue-500'>Registrarse</Link>
+            <span>Don't have an account? </span>
+            <Link to='/sign-up' className='text-blue-500'>Sign up</Link>
           </div>
           {errorMessage && (
             <Alert className='mt-5' color='failure' >

@@ -145,8 +145,9 @@ export default function DashCategory() {
             }
             setImageUploadError(null);
             const storage = getStorage(app);
+            const folder = "categories";
             const fileName = new Date().getTime() + "-" + file.name;
-            const storageRef = ref(storage, fileName);
+            const storageRef = ref(storage, `${folder}/${fileName}`);
             const uploadTask = uploadBytesResumable(storageRef, file);
             uploadTask.on(
                 'state_changed',
@@ -209,7 +210,7 @@ export default function DashCategory() {
                         <Table.HeadCell>Update</Table.HeadCell>
                         <Table.HeadCell>Delete</Table.HeadCell>
                     </Table.Head>
-                    <Table.Body>
+                    <Table.Body className='divide-y'>
                         {categories.map((category) => (
                             <Table.Row key={category._id}>
                                 <Table.Cell>{category.name}</Table.Cell>
