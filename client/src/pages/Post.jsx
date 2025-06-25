@@ -12,6 +12,7 @@ export default function Post() {
     const [post, setPost] = useState(null)
     const [recentPost, setRecentPost] = useState(null)
     const [typePost, setTypePost] = useState(null)
+    const [categoryImage, setCategoryImage] = useState('')
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -28,6 +29,7 @@ export default function Post() {
                     setPost(data.posts[0])
                     const resCategory = await fetch(`/api/category/?category=${data.posts[0].category}`)
                     const dataCategory = await resCategory.json();
+                    setCategoryImage(dataCategory[0]?.image || '')
                     setTypePost(dataCategory[0]?.type || 'post')
                     setLoading(false)
                     setError(false)
@@ -71,7 +73,14 @@ export default function Post() {
                     to={`/search?category=${post?.category}`}
                     className="self-center mt-5"
                 >
-                    <Button color="gray" pill size="xs">{post?.category}</Button>
+                    <Button color="gray" pill size="xs">
+                        <img
+                            src={categoryImage}
+                            alt={post?.category}
+                            className="w-4 h-4 bg-gray-200 rounded-full mr-2"
+                        />
+                        {post?.category}
+                    </Button>
                 </Link>
                 {typePost === 'post' ?
                     <>
