@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const postSchema = new mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     title: {
@@ -20,9 +21,10 @@ const postSchema = new mongoose.Schema(
       default:
         "https://www.hostinger.it/tutorial/wp-content/uploads/sites/24/2023/09/come-scrivere-un-blog-768x334.webp",
     },
-    category: {
-      type: String,
-      default: "uncategorized",
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      default: null,
     },
     tags: {
       type: [String],
