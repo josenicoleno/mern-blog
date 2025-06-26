@@ -21,10 +21,9 @@ const postSchema = new mongoose.Schema(
       default:
         "https://www.hostinger.it/tutorial/wp-content/uploads/sites/24/2023/09/come-scrivere-un-blog-768x334.webp",
     },
-    categoryId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
-      default: null,
+    category:{
+      type: String,
+      required: true,
     },
     tags: {
       type: [String],
