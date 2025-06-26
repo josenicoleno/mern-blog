@@ -2,12 +2,18 @@ import { Link } from 'react-router-dom';
 import CallToAcction from '../components/CallToAction'
 import { useEffect, useState } from 'react';
 import PostCard from '../components/PostCard';
+import { useSelector } from 'react-redux';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const { currentUser } = useSelector(state => state.user);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        setLoading(true);
+        setPosts([]);
         const sizeWindow = window.innerWidth;
         let limit = 9;
         if (sizeWindow < 768) {
@@ -15,7 +21,16 @@ export default function Home() {
         }
         const res = await fetch(`/api/post/getPosts?limit=${limit}`)
         const data = await res.json()
-        setPosts(data.posts)
+        if (!res.ok) {
+          throw new Error(data.message || 'Error fetching posts');
+        }
+        if (currentUser?.isAdmin) {
+          setPosts(data.posts);
+        }else{
+          setPosts(data.posts.filter(post => post.status !== 'draft'));
+        }
+        setLoading(false);
+        return;
       } catch (error) {
         console.log(error.message)
       }

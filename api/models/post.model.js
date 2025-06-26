@@ -24,6 +24,19 @@ const postSchema = new mongoose.Schema(
       type: String,
       default: "uncategorized",
     },
+    tags: {
+      type: [String],
+      default: [],
+    },
+    status:{
+      type: String,
+      enum: ["draft", "published"],
+      default: "draft",
+    },
+    views: {
+      type: Number,
+      default: 0,
+    },
     slug: {
       type: String,
       required: true,

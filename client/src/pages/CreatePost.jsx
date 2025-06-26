@@ -90,7 +90,7 @@ export default function CreatePost() {
             setPublishError('Something went wrong!!')
         } finally {
             setLoading(false);
-        }   
+        }
     }
 
     return (
@@ -103,23 +103,38 @@ export default function CreatePost() {
                     Create a post
                 </h1>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <TextInput
+                        id="title"
+                        type="text"
+                        placeholder="Title"
+                        required
+                        className="flex-1"
+                        onChange={handleChange}
+                    />
                     <div className="flex flex-col gap-4 sm:flex-row justify-between">
+                        <Select
+                            id="category"
+                            onChange={handleChange}
+                        >
+                            <option value="uncategorized">Select a category</option>
+                            {categories.map((category) => (
+                                <option key={category._id} value={category.name}>{category.name}</option>
+                            ))}
+                        </Select>
                         <TextInput
-                            id="title"
+                            id="tags"
                             type="text"
-                            placeholder="Title"
+                            placeholder="Tags (comma separated)"
                             required
                             className="flex-1"
                             onChange={handleChange}
                         />
                         <Select
-                            id="category"
+                            id="status"
                             onChange={handleChange}
-                        >   
-                            <option value="uncategorized">Select a category</option>
-                            {categories.map((category) => (
-                                <option key={category._id} value={category.name}>{category.name}</option>
-                            ))}
+                        >
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
                         </Select>
                     </div>
                     <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { Button, Spinner } from 'flowbite-react'
 import CallToAction from "../components/CallToAction"
 import CommentSection from "../components/CommentSection"
 import PostCard from "../components/PostCard"
+import { useSelector } from "react-redux"
 
 export default function Post() {
     const { postSlug } = useParams()
@@ -13,7 +14,8 @@ export default function Post() {
     const [recentPost, setRecentPost] = useState(null)
     const [typePost, setTypePost] = useState(null)
     const [categoryImage, setCategoryImage] = useState('')
-
+    const { currentUser } = useSelector(state => state.user)
+    const navigate = useNavigate()
     useEffect(() => {
         const fetchPost = async () => {
             try {
@@ -23,6 +25,16 @@ export default function Post() {
                 if (!res.ok) {
                     setError(true)
                     setLoading(false)
+                    return
+                }
+                if (data.posts.length === 0) {
+                    setError('Post not found')
+                    setLoading(false)
+                    navigate('/search')
+                    return
+                }
+                if (data.posts[0].status === 'draft' && data.posts[0].userId !== currentUser?._id && !currentUser?.isAdmin) {
+                    navigate('/search')
                     return
                 }
                 if (res.ok) {
@@ -71,17 +83,30 @@ export default function Post() {
                 </h1>
                 <Link
                     to={`/search?category=${post?.category}`}
-                    className="self-center mt-5"
+                    className="self-center items-center justify-center flex align-center mb-5"
                 >
-                    <Button color="gray" pill size="xs">
+                    <Button color="gray" pill className="items-center">
                         <img
                             src={categoryImage}
                             alt={post?.category}
-                            className="w-4 h-4 bg-gray-200 rounded-full mr-2"
+                            className="w-8 h-8 bg-gray-200 rounded-full mr-2"
                         />
                         {post?.category}
                     </Button>
                 </Link>
+                <div className="flex flex-col items-center justify-center max-w-2xl mx-auto">
+                    <div className="flex flex-wrap gap-2 mt-2">
+                        {post?.tags && post.tags.map((tag, index) => (
+                            <Link
+                                to={`/search?tag=${tag}`}
+                                key={index}
+                                className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm hover:bg-gray-300 transition-colors"
+                            >
+                                {tag}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
                 {typePost === 'post' ?
                     <>
                         <img

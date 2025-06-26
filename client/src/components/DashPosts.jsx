@@ -106,6 +106,9 @@ export const DashPosts = () => {
               <Table.HeadCell>Image</Table.HeadCell>
               <Table.HeadCell>Title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
+              <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell>Slug</Table.HeadCell>
+              <Table.HeadCell>Tags</Table.HeadCell>
               <Table.HeadCell>
                 <span>Edit</span>
               </Table.HeadCell>
@@ -130,6 +133,9 @@ export const DashPosts = () => {
                     </Link>
                   </Table.Cell>
                   <Table.Cell>{post.category}</Table.Cell>
+                  <Table.Cell>{post.status}</Table.Cell>
+                  <Table.Cell>{post.slug}</Table.Cell>
+                  <Table.Cell>{post.tags}</Table.Cell>
                   <Table.Cell>
                     <Link className="text-teal-500 hover:underline" to={`/update-post/${post._id}`}>
                       <span>

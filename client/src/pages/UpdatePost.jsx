@@ -17,7 +17,10 @@ export default function UpdatePost() {
         title: '', // Valor inicial vacío
         category: 'uncategorized', // Valor inicial definido
         image: '',
-        content: ''
+        content: '',
+        tags: [],
+        status: 'draft',
+        slug: ''
     });
     const [publishError, setPublishError] = useState(null);
     const navigate = useNavigate();
@@ -133,16 +136,26 @@ export default function UpdatePost() {
                     Update post
                 </h1>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <TextInput
+                        id="title"
+                        type="text"
+                        placeholder="Title"
+                        required
+                        className="flex-1"
+                        value={formData.title}
+                        onChange={(e) => { setFormData({ ...formData, title: e.target.value }) }}
+                    />
+                    <TextInput
+                        id="slug"
+                        type="text"
+                        placeholder="Slug"
+                        required
+                        className="flex-1"
+                        value={formData.slug}
+                        onChange={(e) => { setFormData({ ...formData, slug: e.target.value }) }}
+                    />
                     <div className="flex flex-col gap-4 sm:flex-row justify-between">
-                        <TextInput
-                            id="title"
-                            type="text"
-                            placeholder="Title"
-                            required
-                            className="flex-1"
-                            value={formData.title}
-                            onChange={(e) => { setFormData({ ...formData, title: e.target.value }) }}
-                        />
+
                         <Select
                             id="category"
                             itemType="string"
@@ -153,6 +166,26 @@ export default function UpdatePost() {
                             {categories.map((category) => (
                                 <option key={category._id} value={category.name}>{category.name}</option>
                             ))}
+
+                        </Select>
+                        <TextInput
+                            id="tags"
+                            type="text"
+                            placeholder="Tags (comma separated)"
+                            className="flex-1"
+                            value={formData.tags.join(', ')}
+                            onChange={(e) => {
+                                const tagsArray = e.target.value.split(',').map(tag => tag.trim());
+                                setFormData({ ...formData, tags: tagsArray });
+                            }}
+                        />
+                        <Select
+                            id="status"
+                            value={formData.status}
+                            onChange={(e) => { setFormData({ ...formData, status: e.target.value }) }}
+                        >
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
                         </Select>
                     </div>
                     <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">

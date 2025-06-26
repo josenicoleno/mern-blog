@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button, Select, TextInput, Spinner } from 'flowbite-react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import PostCard from '../components/PostCard'
+import { useSelector } from 'react-redux'
 
 export default function Search() {
     const [sidebarData, setSidebarData] = useState({
@@ -15,6 +16,7 @@ export default function Search() {
     const [showMore, setShowMore] = useState(false)
     const [categories, setCategories] = useState([])
     const navigate = useNavigate();
+    const { currentUser } = useSelector(state => state.user);
 
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search)
@@ -37,7 +39,19 @@ export default function Search() {
                     throw new Error('Error fetching posts')
                 }
                 const data = await res.json();
-                setPosts(data.posts)
+                if (data.posts.length === 0) {
+                    setPosts([])
+                    setShowMore(false)
+                    setLoading(false) 
+                    return
+                }
+                if (currentUser?.isAdmin) {
+                    setPosts(data.posts)
+                }
+                else {
+                    setPosts(data.posts.filter(post => post.status !== 'draft'))
+                }
+                setLoading(false)
                 setShowMore(data.posts.length === 9)
             } catch (error) {
                 console.error('Error fetching posts:', error)
@@ -138,7 +152,7 @@ export default function Search() {
                             id='category'
                             onChange={handleChange}
                             value={sidebarData.category}
-                        >   
+                        >
                             <option value=''>Select</option>
                             {categories.map(category => (
                                 <option key={category._id} value={category.name}>
