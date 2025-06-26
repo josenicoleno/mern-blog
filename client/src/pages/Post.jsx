@@ -5,7 +5,7 @@ import CallToAction from "../components/CallToAction"
 import CommentSection from "../components/CommentSection"
 import PostCard from "../components/PostCard"
 import { useSelector } from "react-redux"
-import { HiArchive, HiQrcode } from "react-icons/hi"
+import { HiArchive, HiMenu, HiOutlineViewGrid, HiQrcode } from "react-icons/hi"
 
 function PostHeader({ title, category, categoryImage, tags }) {
     return (
@@ -13,29 +13,28 @@ function PostHeader({ title, category, categoryImage, tags }) {
             <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">
                 {title}
             </h1>
-            <Link
-                to={`/search?category=${category}`}
-                className="self-center items-center justify-center flex align-center mb-5"
-            >
-                <Button color="gray" pill className="items-center">
-                    <img
-                        src={categoryImage}
-                        alt={category}
-                        className="w-8 h-8 bg-gray-200 rounded-full mr-2"
-                    />
-                    {category}
-                </Button>
-            </Link>
+            <div className="flex flex-col items-center justify-center max-w-2xl mx-auto bg-slate-300 border rounded-3xl p-0 mt-0">
+                <Link className='text-xs text-cyan-600 hover:underline' to={`/search?category=${category}`}>
+                    <div className="flex justify-between items-center gap-2 my-1 p-1 border-gray-300 pb-1">
+                        <div className="flex items-center gap-1 text-lg hover:underline">
+                            <img className='w-8 h-8 rounded-full object-cover' src={categoryImage} alt="profile" />
+                            {category}
+                        </div>
+                    </div>
+                </Link>
+            </div>
             <div className="flex flex-col items-center justify-center max-w-2xl mx-auto">
                 <div className="flex flex-wrap gap-2 mt-2">
                     {tags && tags.map((tag, index) => (
-                        <Link
+                        <div key={index} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm hover:bg-gray-300 transition-colors">
+                            {/* <Link
                             to={`/search?tag=${tag}`}
                             key={index}
                             className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm hover:bg-gray-300 transition-colors"
-                        >
+                        > */}
                             {tag}
-                        </Link>
+                            {/* </Link> */}
+                        </div>
                     ))}
                 </div>
             </div>
@@ -149,11 +148,11 @@ export default function Post() {
                 />
                 {/* Botones solo visibles en pantallas grandes y alineados a la derecha */}
                 <div className="hidden lg:flex justify-end w-full gap-2 mt-0 text-gray-500">
-                    <Button color="gray" pill onClick={() => { setTypePost(typePost === 'post' ? 'article' : 'post') }}>
-                        <HiQrcode className="text-2xl" />
+                    <Button color="gray" pill onClick={() => { setTypePost('post') }}>
+                        <HiMenu className="text" />
                     </Button>
-                    <Button color="gray" pill onClick={() => { setTypePost(typePost === 'post' ? 'article' : 'post') }}>
-                        <HiArchive className="text-2xl" />
+                    <Button color="gray" pill onClick={() => { setTypePost('card') }}>
+                        <HiOutlineViewGrid className="" />
                     </Button>
                 </div>
                 {typePost === 'post' ? (
