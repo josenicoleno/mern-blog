@@ -102,11 +102,13 @@ export const DashPosts = () => {
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
+              <Table.HeadCell>Date created</Table.HeadCell>
               <Table.HeadCell>Date updated</Table.HeadCell>
               <Table.HeadCell>Image</Table.HeadCell>
               <Table.HeadCell>Title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
               <Table.HeadCell>Status</Table.HeadCell>
+              <Table.HeadCell>Views</Table.HeadCell>
               <Table.HeadCell>Slug</Table.HeadCell>
               <Table.HeadCell>Tags</Table.HeadCell>
               <Table.HeadCell>
@@ -117,6 +119,7 @@ export const DashPosts = () => {
             <Table.Body className="divide-y">
               {userPost.map(post =>
                 <Table.Row key={post._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell>{new Date(post.createdAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}</Table.Cell>
                   <Table.Cell>
                     <Link to={`/post/${post.slug}`}>
@@ -134,6 +137,7 @@ export const DashPosts = () => {
                   </Table.Cell>
                   <Table.Cell>{post.category}</Table.Cell>
                   <Table.Cell>{post.status}</Table.Cell>
+                  <Table.Cell>{post.views}</Table.Cell>
                   <Table.Cell>{post.slug}</Table.Cell>
                   <Table.Cell>{post.tags}</Table.Cell>
                   <Table.Cell>

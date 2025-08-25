@@ -44,7 +44,7 @@ export const getPosts = async (req, res, next) => {
       }),
     })
       .populate("userId", "username profilePicture")
-      .sort({ updatedAt: sortDirection })
+      .sort({ createdAt: sortDirection })
       .skip(startIndex)
       .limit(limit);
 
@@ -97,12 +97,25 @@ export const updatePost = async (req, res, next) => {
           image: req.body.image,
           tags: req.body.tags,
           status: req.body.status,
-          slug: req.body.slug
+          slug: req.body.slug,
         },
       },
       { new: true }
     );
     res.status(200).json(updatePost);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const addView = async (req, res, next) => {
+  try {
+    const post = await Post.findByIdAndUpdate(
+      req.params.postId,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+    res.status(200).json(post);
   } catch (error) {
     next(error);
   }

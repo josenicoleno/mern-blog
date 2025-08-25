@@ -118,13 +118,19 @@ export default function Post() {
     }, [postSlug])
 
     useEffect(() => {
+        if (post?._id) {
+            fetch(`/api/post/view/${post._id}`, { method: "PUT" });
+        }
+    }, [post?._id]);
+
+    useEffect(() => {
         const recentPost = async () => {
             try {
                 const res = await fetch(`/api/post/getposts?limit=9`)
                 if (res.ok) {
                     const data = await res.json();
                     setRecentPosts(data.posts.filter(p => p._id !== post?._id && p.status !== 'draft'))
-                    setRecentPosts(recentPosts => recentPosts.slice(0, 3)) // Limitar a 6 posts
+                    setRecentPosts(recentPosts => recentPosts.slice(0, 3)) // Limitar a 3 posts
                     return
                 }
             } catch (error) {
