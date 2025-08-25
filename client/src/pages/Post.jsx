@@ -5,7 +5,7 @@ import CallToAction from "../components/CallToAction"
 import CommentSection from "../components/CommentSection"
 import PostCard from "../components/PostCard"
 import { useSelector } from "react-redux"
-import { HiArchive, HiMenu, HiOutlineViewGrid, HiQrcode } from "react-icons/hi"
+import { HiMenu, HiOutlineViewGrid } from "react-icons/hi"
 
 function PostHeader({ title, category, categoryImage, tags }) {
     return (
@@ -72,7 +72,7 @@ export default function Post() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [post, setPost] = useState(null)
-    const [recentPost, setRecentPost] = useState(null)
+    const [recentPosts, setRecentPosts] = useState(null)
     const [typePost, setTypePost] = useState('post')
     const [categoryImage, setCategoryImage] = useState('')
     const { currentUser } = useSelector(state => state.user)
@@ -120,17 +120,19 @@ export default function Post() {
     useEffect(() => {
         const recentPost = async () => {
             try {
-                const res = await fetch(`/api/post/getposts?limit=3`)
+                const res = await fetch(`/api/post/getposts?limit=9`)
                 if (res.ok) {
                     const data = await res.json();
-                    setRecentPost(data.posts)
+                    setRecentPosts(data.posts.filter(p => p._id !== post?._id && p.status !== 'draft'))
+                    setRecentPosts(recentPosts => recentPosts.slice(0, 3)) // Limitar a 6 posts
+                    return
                 }
             } catch (error) {
                 console.log(error.message)
             }
         }
         recentPost();
-    }, [])
+    }, [postSlug, post])
 
     if (loading)
         return <div className="flex justify-center items-center min-h-screen">
@@ -180,8 +182,8 @@ export default function Post() {
             <div className="flex flex-col justify-center items-center max-w-8xl p-3">
                 <h1 className="text-xl mt-5">Recent articles</h1>
                 <div className="flex flex-wrap gap-5 mt-5 justify-center">
-                    {recentPost &&
-                        recentPost.map(post => <PostCard key={post._id} post={post} />)
+                    {recentPosts &&
+                        recentPosts.map(post => <PostCard key={post._id} post={post} />)
                     }
                 </div>
             </div>
