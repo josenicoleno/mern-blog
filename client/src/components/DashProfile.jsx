@@ -193,9 +193,29 @@ export default function DashProfile() {
                     {loading ? 'Loading...' : 'Update'}
                 </Button>
             </form>
-            <div className="text-red-500 flex justify-between mt-5">
-                <span onClick={() => setShowModal(true)} className="cursor-pointer">Delete Account</span>
-                <span onClick={handleSignout} className="cursor-pointer">Sign out</span>
+            <div
+            className="flex flex-col gap-4 mt-5">
+
+                <Button
+                    type="submit"
+                    gradientDuoTone="pinkToOrange"
+                    outline
+                    disabled={loading || imageFileUploading}
+                    onClick={handleSignout}
+                >
+                    {loading ? 'Loading...' : 'Sign out'}
+                </Button>
+                
+                <Button
+                    type="submit"
+                    gradientDuoTone="purpleToPink"
+                    outline
+                    className="mt-5"
+                    disabled={loading || imageFileUploading}
+                    onClick={() => setShowModal(true)}
+                >
+                    {loading ? 'Loading...' : 'Delete Account'}
+                </Button>
             </div>
             {updateUserSuccess && (
                 <Alert color="success" className="mt-5">
