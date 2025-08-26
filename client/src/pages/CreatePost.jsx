@@ -71,6 +71,7 @@ export default function CreatePost() {
         e.preventDefault();
         setPublishError(null)
         setLoading(true);
+        console.log(formData)
         try {
             const res = await fetch(`/api/post/create`, {
                 method: "POST",

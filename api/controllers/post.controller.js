@@ -13,8 +13,22 @@ export const createPost = async (req, res, next) => {
     .join("-")
     .toLowerCase()
     .replace(/[^a-zA-Z0-9-]/g, "");
+
+  // Procesar tags: convertir string "Hola, Mundo" en array ["Hola", "Mundo"]
+  console.log(req.body.tags);
+  let tags = [];
+  
+  if (typeof req.body.tags === "string") {
+    tags = req.body.tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag);
+  } else if (Array.isArray(req.body.tags)) {
+    tags = req.body.tags;
+  }
   const newPost = new Post({
     ...req.body,
+    tags,
     slug,
     userId: req.user.id,
   });

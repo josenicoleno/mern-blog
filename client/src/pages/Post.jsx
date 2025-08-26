@@ -25,6 +25,7 @@ function PostHeader({ title, category, categoryImage, tags }) {
             </div>
             <div className="flex flex-col items-center justify-center max-w-2xl mx-auto">
                 <div className="flex flex-wrap gap-2 mt-2">
+                    <span>Etiquetas:</span>
                     {tags && tags.map((tag, index) => (
                         <div key={index} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm hover:bg-gray-300 transition-colors">
                             {/* <Link
@@ -156,10 +157,10 @@ export default function Post() {
                 />
                 {/* Botones solo visibles en pantallas grandes y alineados a la derecha */}
                 <div className="hidden lg:flex justify-end w-full gap-2 mt-0 text-gray-500">
-                    <Button color="gray" pill onClick={() => { setTypePost('post') }}>
-                        <HiMenu className="text" />
+                    <Button color={typePost === 'post' ? "blue" : "gray"} pill onClick={() => { setTypePost('post') }}>
+                        <HiMenu className="text  " />
                     </Button>
-                    <Button color="gray" pill onClick={() => { setTypePost('card') }}>
+                    <Button color={typePost === 'card' ? "blue" : "gray"} pill onClick={() => { setTypePost('card') }}>
                         <HiOutlineViewGrid className="" />
                     </Button>
                 </div>
