@@ -59,20 +59,24 @@ export default function Home() {
         <h1 className="text-3xl font-bold lg:text-6xl">¡Bienvenido a mi blog! </h1>
         <p className="text-gray-500 text-xs sm:text-sm">Aquí comparto mis ideas, viajes, trabajos, tips, trámites y más. Te invito a leer, sumarte, opinar y compartir! Diviertete</p>
         <Link to='/search' className='text-xs sm:text-sm text-teal-500 hover:underline font-bold'>Ver todos los post</Link>
-        <div className="flex gap-2 flex-wrap items-center">
-          Categorías:
-          {categories?.map(category =>
-            <Link
-              key={category._id}
-              to={`/search?category=${category.name}`}
-              className="text-xs flex justify-between sm:text-sm bg-amber-200 dark:bg-slate-600 px-3 py-1 rounded-full hover:bg-amber-300 dark:hover:bg-slate-500 transition-colors"
-            >
-              <div className='flex gap-2 items-center'>
-                <img className='w-8 h-8 rounded-full object-cover' src={category.image} alt="profile" />
-                {category.name}
-              </div>
-            </Link>
-          )}
+        <div className="flex flex-col gap-3 bg-amber-100 dark:bg-slate-700 p-3 rounded">
+          <p className="text-gray-500 text-xs sm:text-sm">
+            Categorías
+          </p>
+          <div className="flex gap-2 flex-wrap justify-center">
+            {categories?.map(category =>
+              <Link
+                key={category._id}
+                to={`/search?category=${category.name}`}
+                className="text-xs flex justify-between sm:text-sm bg-amber-200 dark:bg-slate-600 px-3 py-1 rounded-full hover:bg-amber-300 dark:hover:bg-slate-500 transition-colors"
+              >
+                <div className='flex gap-2 items-center'>
+                  <img className='w-8 h-8 rounded-full object-cover' src={category.image} alt="profile" />
+                  {category.name}
+                </div>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
       <div className="p-3 bg-amber-100 dark:bg-slate-700">
