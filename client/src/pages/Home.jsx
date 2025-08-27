@@ -57,7 +57,7 @@ export default function Home() {
     <div>
       <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold lg:text-6xl">¡Bienvenido a mi blog! </h1>
-        <p className="text-gray-500 text-xs sm:text-sm">Aquí comparto mis ideas, viajes, trabajos, tips, trámites y más. Te invito a leer, sumarte, opinar y compartir! Diviertete</p>
+        <p className="text-gray-500 text-xs sm:text-sm">Aquí comparto mis ideas, viajes, trabajos, info, tips, trámites italianos (?) y más. Te invito a leer, sumarte, opinar y compartir! Diviertete</p>
         <Link to='/search' className='text-xs sm:text-sm text-teal-500 hover:underline font-bold'>Ver todos los post</Link>
         <div className="flex flex-col gap-3 bg-amber-100 dark:bg-slate-700 p-3 rounded">
           <p className="text-gray-500 text-xs sm:text-sm">
@@ -86,7 +86,7 @@ export default function Home() {
         {posts &&
           <div className="flex flex-col gap-6">
             <h2 className='text-2xl font-semibold text-center'>
-              Recent Posts
+               Posts recientes
             </h2>
             <div className="flex flex-wrap gap-10 justify-center">
               {posts.map(post =>
