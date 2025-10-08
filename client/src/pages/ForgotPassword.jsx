@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 const ForgotPassword = () => {
 
   const [formData, setFormData] = useState({});
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { currentUser } = useSelector(state => state.user)
   const [loading, setLoading] = useState(false)
@@ -54,10 +53,10 @@ const ForgotPassword = () => {
         {/* left */}
         <div className="flex-1">
           <Link to='/' className='font-bold dark:text-white text-4xl'>
-            Profe
-            <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-black'>Mariano Nicoleno</span>
+            José
+            <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-white'>Nicoleno</span>
           </Link>
-          <p className='text-sm mt-5'>This is my blogpage. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod tenetur eum soluta. Nam animi blanditiis.</p>
+          <p className='text-sm mt-5'></p>
         </div>
         {/* right */}
         <div className="flex-1">

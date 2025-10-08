@@ -14,8 +14,6 @@ export const createPost = async (req, res, next) => {
     .toLowerCase()
     .replace(/[^a-zA-Z0-9-]/g, "");
 
-  // Procesar tags: convertir string "Hola, Mundo" en array ["Hola", "Mundo"]
-  console.log(req.body.tags);
   let tags = [];
   
   if (typeof req.body.tags === "string") {
