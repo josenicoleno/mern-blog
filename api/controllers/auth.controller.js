@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import { verifyRecaptcha } from "../utils/recaptcha.js";
 import {
   sendResetPasswordEmail,
   sendVerificationEmail,
@@ -9,7 +10,7 @@ import {
 } from "../utils/emails.js";
 
 export const signup = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, recaptchaToken } = req.body;
   if (
     !username ||
     !email ||
@@ -19,6 +20,12 @@ export const signup = async (req, res, next) => {
     password === ""
   )
     return next(errorHandler(400, "All fields are required!"));
+
+  // Verificar reCAPTCHA
+  const recaptchaResult = await verifyRecaptcha(recaptchaToken)
+  if (!recaptchaResult.success) {
+    return next(errorHandler(400, "reCAPTCHA verification failed. Please try again."))
+  }
 
   if (password.length < 8 || password.length > 20) {
     return next(
@@ -57,9 +64,15 @@ export const signup = async (req, res, next) => {
 };
 
 export const signin = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, recaptchaToken } = req.body;
   if (!email || !password || email === "" || password === "") {
     return next(errorHandler(400, "All fields are required"));
+  }
+
+  // Verificar reCAPTCHA
+  const recaptchaResult = await verifyRecaptcha(recaptchaToken)
+  if (!recaptchaResult.success) {
+    return next(errorHandler(400, "reCAPTCHA verification failed. Please try again."))
   }
 
   try {

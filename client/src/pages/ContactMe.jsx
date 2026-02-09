@@ -1,11 +1,13 @@
 import { Alert, Button, Label, Spinner, TextInput, Toast } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useRecaptcha } from "../hooks/useRecaptcha";
 import CallToAction from "../components/CallToAction";
 import { Link } from "react-router-dom";
 
 export default function ContactMe() {
     const { currentUser } = useSelector((state) => state.user)
+    const { getRecaptchaToken } = useRecaptcha()
     const [message, setMessage] = useState('')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -14,6 +16,7 @@ export default function ContactMe() {
     const [loading, setLoading] = useState(false)
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const imageContactMe = "https://firebasestorage.googleapis.com/v0/b/josenicoleno-blog.appspot.com/o/public%2Fcontact-me.png?alt=media&token=8090f356-f9a6-44c0-8c59-644ec363efbf"
 
     useEffect(() => {
         if (currentUser) {
@@ -24,13 +27,22 @@ export default function ContactMe() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
         try {
+            const recaptchaToken = await getRecaptchaToken()
+            
             const res = await fetch('/api/contact/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId: currentUser?._id || '', name, email, content: message })
+                body: JSON.stringify({ 
+                    userId: currentUser?._id || '', 
+                    name, 
+                    email, 
+                    content: message,
+                    recaptchaToken 
+                })
             })
             const data = await res.json()
             if (res.status === 201) {
@@ -55,7 +67,7 @@ export default function ContactMe() {
             <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
                 {/* left */}
                 <div className="flex-1">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/josenicoleno-blog.appspot.com/o/public%2Fcontact-me.png?alt=media&token=8090f356-f9a6-44c0-8c59-644ec363efbf" alt="contact" className='md:w-full md:h-full object-cover md:rounded-md h-64 w-64 shadow-lg rounded-full mx-auto' />
+                    <img src={imageContactMe} alt="contact" className='md:w-full md:h-full object-cover md:rounded-md h-64 w-64 shadow-lg rounded-full mx-auto' />
                 </div>
                 {/* right */}
                 <div className="flex-1">

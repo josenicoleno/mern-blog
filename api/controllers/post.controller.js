@@ -1,33 +1,43 @@
 import Post from "../models/post.model.js";
 import { errorHandler } from "../utils/error.js";
+import { verifyRecaptcha } from "../utils/recaptcha.js";
 
 export const createPost = async (req, res, next) => {
   if (!req.user.isAdmin) {
     return next(errorHandler(403, "You are not allowed to create a post"));
   }
-  if (!req.body.title || !req.body.content) {
+
+  const { recaptchaToken, ...postData } = req.body
+  
+  // Verificar reCAPTCHA
+  const recaptchaResult = await verifyRecaptcha(recaptchaToken)
+  if (!recaptchaResult.success) {
+    return next(errorHandler(400, "reCAPTCHA verification failed. Please try again."))
+  }
+
+  if (!postData.title || !postData.content) {
     return next(errorHandler(400, "Please provide all required fields"));
   }
-  const slug = req.body.title
+  const slug = postData.title
     .split(" ")
     .join("-")
     .toLowerCase()
     .replace(/[^a-zA-Z0-9-]/g, "");
 
   // Procesar tags: convertir string "Hola, Mundo" en array ["Hola", "Mundo"]
-  console.log(req.body.tags);
+  console.log(postData.tags);
   let tags = [];
   
-  if (typeof req.body.tags === "string") {
-    tags = req.body.tags
+  if (typeof postData.tags === "string") {
+    tags = postData.tags
       .split(",")
       .map((tag) => tag.trim())
       .filter((tag) => tag);
-  } else if (Array.isArray(req.body.tags)) {
-    tags = req.body.tags;
+  } else if (Array.isArray(postData.tags)) {
+    tags = postData.tags;
   }
   const newPost = new Post({
-    ...req.body,
+    ...postData,
     tags,
     slug,
     userId: req.user.id,

@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSlice'
+import { useRecaptcha } from '../hooks/useRecaptcha'
 import OAuth from '../components/OAuth'
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { getRecaptchaToken } = useRecaptcha()
   const { currentUser, loading, error: errorMessage } = useSelector(state => state.user)
 
   useEffect(() => {
@@ -30,10 +32,12 @@ const SignIn = () => {
     }
     try {
       dispatch(signInStart())
+      const recaptchaToken = await getRecaptchaToken()
+      
       const res = await fetch('api/auth/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ ...formData, recaptchaToken })
       })
       const data = await res.json();
       if (data.success === false) {

@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import SignIn from './pages/SignIn'
@@ -20,9 +21,12 @@ import ResetPassword from './pages/ResetPassword'
 import VerifyEmail from './pages/VerifyEmail'
 import ContactMe from './pages/ContactMe'
 import Posts from './pages/Posts'
+
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 export default function App() {
   return (
-    <BrowserRouter>
+    <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY}>
+      <BrowserRouter>
       <ScrollToTop />
       <Header />
       <Routes>
@@ -52,5 +56,6 @@ export default function App() {
       </Routes>
       <Footer />
     </BrowserRouter>
+    </GoogleReCaptchaProvider>
   )
 }

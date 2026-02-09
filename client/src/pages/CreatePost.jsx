@@ -1,5 +1,6 @@
 import { Alert, Button, FileInput, Select, Spinner, TextInput } from "flowbite-react";
 import { useState, useEffect } from "react";
+import { useRecaptcha } from "../hooks/useRecaptcha";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
@@ -16,6 +17,7 @@ export default function CreatePost() {
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
+    const { getRecaptchaToken } = useRecaptcha()
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -73,10 +75,12 @@ export default function CreatePost() {
         setLoading(true);
         console.log(formData)
         try {
+            const recaptchaToken = await getRecaptchaToken()
+            
             const res = await fetch(`/api/post/create`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({ ...formData, recaptchaToken })
             })
             const data = await res.json()
             if (!res.ok) {

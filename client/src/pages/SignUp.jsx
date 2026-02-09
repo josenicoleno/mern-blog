@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
+import { useRecaptcha } from '../hooks/useRecaptcha'
 import OAuth from '../components/OAuth'
 
 const SignUp = () => {
@@ -8,6 +9,7 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
+  const { getRecaptchaToken } = useRecaptcha()
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -35,10 +37,12 @@ const SignUp = () => {
     try {
       setLoading(true)
       setErrorMessage(null)
+      const recaptchaToken = await getRecaptchaToken()
+      
       const res = await fetch('api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({ ...formData, recaptchaToken })
       })
       const data = await res.json();
       if (data.success === false) {
