@@ -1,4 +1,6 @@
-const RECAPTCHA_SECRET_KEY = "6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_"
+import dotenv from 'dotenv';
+dotenv.config();
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY
 
 export const verifyRecaptcha = async (token) => {
   if (!token) {
