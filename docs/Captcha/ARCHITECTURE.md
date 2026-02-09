@@ -196,8 +196,6 @@ POST https://www.google.com/recaptcha/api/siteverify
 
 Content-Type: application/x-www-form-urlencoded
 
-secret=6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_&response=xyz123...
-```
 
 ### Response que Google devuelve:
 
@@ -234,19 +232,12 @@ secret=6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_&response=xyz123...
 
 ### Development (`localhost`)
 
-```
-REACT_APP_RECAPTCHA_SITE_KEY=6Lc4fWUsAAAAANEYlBahrB-F2kzvgqX-sAUBpYmg
-```
 
 En `app.jsx` está hardcodeado.
 
 ### Production
 
 Crear `.env` en `/api`:
-
-```
-RECAPTCHA_SECRET_KEY=6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_
-```
 
 Actualizar en `api/utils/recaptcha.js`:
 

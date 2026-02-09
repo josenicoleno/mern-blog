@@ -55,14 +55,8 @@ reCAPTCHA v3 ha sido implementado en todos los formularios del blog para protege
 ### Configuration
 
 **SITE KEY** (Público - Frontend):
-```
-6Lc4fWUsAAAAANEYlBahrB-F2kzvgqX-sAUBpYmg
-```
 
 **SECRET KEY** (Privado - Backend):
-```
-6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_
-```
 
 El threshold actual está configurado en **0.5**. Puedes ajustarlo en `api/utils/recaptcha.js` según tus necesidades.
 

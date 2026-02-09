@@ -87,11 +87,7 @@ npm start  # o npm run dev si tienes nodemon
 ## 🔑 Claves de Configuración
 
 **Público (está en el código):**
-- SITE KEY: `6Lc4fWUsAAAAANEYlBahrB-F2kzvgqX-sAUBpYmg`
-
 **Privado (en backend):**
-- SECRET KEY: `6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_`
-
 ---
 
 ## ⚙️ Configuración en Producción
@@ -100,17 +96,8 @@ Para producción, **DEBES proteger la SECRET KEY**:
 
 ### 1️⃣ Crear archivo `.env` en `/api`
 
-```bash
-cd api
-echo "RECAPTCHA_SECRET_KEY=6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_" > .env
-```
 
 ### 2️⃣ Actualizar `api/utils/recaptcha.js`
-
-Cambiar:
-```javascript
-const RECAPTCHA_SECRET_KEY = '6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_'
-```
 
 Por:
 ```javascript

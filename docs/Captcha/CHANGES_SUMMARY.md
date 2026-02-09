@@ -51,8 +51,6 @@
 
 | Componente | Valor |
 |-----------|--------|
-| SITE KEY | `6Lc4fWUsAAAAANEYlBahrB-F2kzvgqX-sAUBpYmg` |
-| SECRET KEY | `6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_` |
 | Threshold Score | `0.5` |
 | Versión | `v3` |
 | Tipo | `Silent (sin UI)` |
@@ -70,8 +68,6 @@
    ```
 
 2. **Crear archivo .env en `/api`**
-   ```
-   RECAPTCHA_SECRET_KEY=6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_
    ```
 
 3. **Configurar dominios en Google Cloud**

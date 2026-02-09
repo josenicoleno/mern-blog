@@ -99,14 +99,8 @@ Proteger los formularios del blog contra bots y spam usando reCAPTCHA v3 sin afe
 ## 🔐 Claves Configuradas
 
 **SITE KEY** (Público):
-```
-6Lc4fWUsAAAAANEYlBahrB-F2kzvgqX-sAUBpYmg
-```
 
 **SECRET KEY** (Privado):
-```
-6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_
-```
 
 ⚠️ **IMPORTANTE EN PRODUCCIÓN**: 
 - Mover SECRET KEY a `.env`
@@ -157,9 +151,6 @@ Proteger los formularios del blog contra bots y spam usando reCAPTCHA v3 sin afe
 ### Para Producción
 
 1. **Crear `.env` en `/api`**
-   ```
-   RECAPTCHA_SECRET_KEY=6Lc4fWUsAAAAAIGq-n10jPYTLqbnRkLe5hel83s_
-   ```
 
 2. **Actualizar `/api/utils/recaptcha.js`**
    ```javascript
