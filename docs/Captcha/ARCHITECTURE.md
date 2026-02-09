@@ -245,7 +245,6 @@ Actualizar en `api/utils/recaptcha.js`:
 const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY
 ```
 
----
 
 ## Configuración de Dominios Permitidos
 
@@ -260,9 +259,6 @@ Dominios:
 ✓ josenicoleno.com        ← Agregar tu dominio aquí en prod
 ✓ www.josenicoleno.com
 ```
-
----
-
 ## Decisiones de Diseño
 
 ### ✅ Por qué reCAPTCHA v3
@@ -289,5 +285,4 @@ Dominios:
 - **Validación**: Última línea de defensa
 
 ---
-
 **Arquitectura robusta y lista para producción** ✅
