@@ -21,15 +21,17 @@ import ResetPassword from './pages/ResetPassword'
 import VerifyEmail from './pages/VerifyEmail'
 import ContactMe from './pages/ContactMe'
 import Posts from './pages/Posts'
+import { LanguageProvider } from './contexts/LanguageContext'
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 export default function App() {
   return (
-    <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY}>
-      <BrowserRouter>
-      <ScrollToTop />
-      <Header />
-      <Routes>
+    <LanguageProvider>
+      <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY}>
+        <BrowserRouter>
+        <ScrollToTop />
+        <Header />
+        <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/home' element={<Home />} />
         <Route path='/posts/:category' element={<Posts />} />
@@ -57,5 +59,6 @@ export default function App() {
       <Footer />
     </BrowserRouter>
     </GoogleReCaptchaProvider>
+    </LanguageProvider>
   )
 }

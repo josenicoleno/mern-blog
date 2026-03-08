@@ -56,7 +56,7 @@ const FooterComponent = () => {
                 </div>
                 <Footer.Divider />
                 <div className="w-full sm:flex sm:items-center sm:justify-between">
-                    <Footer.Copyright href="#" by="Made with love by José Nicoleno" year={new Date().getFullYear()} />
+                    <Footer.Copyright href="https://josenicoleno.ar/contact-me" by="Made with love by José Nicoleno" year={new Date().getFullYear()} />
                     <div className="flex gap-6 sm:mt-0 mt-5 sm:justify-center">
                         <Footer.Icon href="https://www.facebook.com/jose.nicoleno/" icon={BsFacebook} />
                         <Footer.Icon href="https://www.instagram.com/jose.nicoleno/" icon={BsInstagram} />

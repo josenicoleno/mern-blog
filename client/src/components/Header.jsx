@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { toggleTheme } from "../redux/theme/themeSlice";
 import { signoutSuccess } from "../redux/user/userSlice";
 import { useEffect, useState } from "react";
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Header = () => {
     const path = useLocation().pathname;
@@ -16,6 +17,37 @@ const Header = () => {
     const { theme } = useSelector(state => state.theme);
     const [searchTerm, setSearchTerm] = useState('');
     const [categories, setCategories] = useState([]);
+    const { language, setLanguage } = useLanguage();
+
+    const t = {
+        es: {
+            home: 'Inicio',
+            posts: 'Posts',
+            about: 'Sobre mí',
+            contact: 'Contáctame',
+            profile: 'Perfil',
+            signout: 'Cerrar sesión',
+            signin: 'Iniciar sesión'
+        },
+        en: {
+            home: 'Home',
+            posts: 'Posts',
+            about: 'About me',
+            contact: 'Contact me',
+            profile: 'Profile',
+            signout: 'Sign out',
+            signin: 'Sign in'
+        },
+        it: {
+            home: 'Home',
+            posts: 'Posts',
+            about: 'Su di me',
+            contact: 'Contattami',
+            profile: 'Profilo',
+            signout: 'Disconnettersi',
+            signin: 'Accedi'
+        }
+    }[language];
 
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search)
@@ -84,6 +116,20 @@ const Header = () => {
                     </Link>
                 </Button>
                 <div className="flex gap-2 md:order-2">
+                    {/* language selector */}
+                    <div className="flex center border rounded-xl ">
+                        <Dropdown inline label={language === 'es' ? '🇪🇸' : language === 'en' ? '🇬🇧' : '🇮🇹'}>
+                            <Dropdown.Item onClick={() => setLanguage('es')} className="flex items-center gap-2">
+                                🇪🇸
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => setLanguage('en')} className="flex items-center gap-2">
+                                🇬🇧
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => setLanguage('it')} className="flex items-center gap-2">
+                                🇮🇹
+                            </Dropdown.Item>
+                        </Dropdown>
+                    </div>
                     <Button className='w-12 h-10 sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}>
                         {theme === 'light' ? <FaMoon /> : <FaSun />}
                     </Button>
@@ -94,15 +140,15 @@ const Header = () => {
                                 <span className="block text-sm truncate font-semibold">{currentUser.email}</span>
                             </Dropdown.Header>
                             <Link to='/dashboard?tab=profile'>
-                                <Dropdown.Item>Perfil</Dropdown.Item>
+                                <Dropdown.Item>{t.profile}</Dropdown.Item>
                             </Link>
                             <Dropdown.Divider />
-                            <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
+                            <Dropdown.Item onClick={handleSignout}>{t.signout}</Dropdown.Item>
                         </Dropdown>
                     ) : (
                         <Link to='/sign-in'>
                             <Button gradientDuoTone='purpleToBlue' outline>
-                                Sign in
+                                {t.signin}
                             </Button>
                         </Link>)
                     }
@@ -111,12 +157,12 @@ const Header = () => {
                 <Navbar.Collapse>
                     <Navbar.Link active={path === "/"} as={'div'}>
                         <Link to='/'>
-                            Home
+                            {t.home}
                         </Link>
                     </Navbar.Link>
                     <Navbar.Link active={path === "/search"} as={'div'}>
                         <Link to='/search'>
-                            Posts
+                            {t.posts}
                         </Link>
                     </Navbar.Link>
                     {categories.filter(category => category.inMenu).map(category => (
@@ -128,12 +174,12 @@ const Header = () => {
                     ))}
                     <Navbar.Link active={path === "/about"} as={'div'}>
                         <Link to='/about'>
-                            About me
+                            {t.about}
                         </Link>
                     </Navbar.Link>
                     <Navbar.Link active={path === "/contact-me"} as={'div'}>
                         <Link to='/contact-me'>
-                            Contact me
+                            {t.contact}
                         </Link>
                     </Navbar.Link>
                 </Navbar.Collapse>
