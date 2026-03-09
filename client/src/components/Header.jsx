@@ -27,7 +27,7 @@ const Header = () => {
             contact: 'Contáctame',
             profile: 'Perfil',
             signout: 'Cerrar sesión',
-            signin: 'Iniciar sesión'
+            signin: 'Sign in'
         },
         en: {
             home: 'Home',
@@ -96,8 +96,11 @@ const Header = () => {
         <div>
             <Navbar className='border-b-2'>
                 <Link to='/' className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
-                    José
-                    <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-white'>Nicoleno
+                    <span className="hidden sm:inline">
+                        José
+                    </span>
+                    <span className='px-2 py-1 bg-gradient-to-r from-blue-500 via-light-blue-500 to-cyan-500 rounded-lg text-white'>
+                        Nicoleno
                     </span>
                 </Link>
                 <form onSubmit={handleSubmit}>
@@ -110,14 +113,14 @@ const Header = () => {
                         onChange={e => setSearchTerm(e.target.value)}
                     />
                 </form>
-                <Button className='w-12 h-10 lg:hidden' color='gray' pill>
+                <Button className='w-10 h-10 lg:hidden' color='gray' pill>
                     <Link to='/search'>
                         <AiOutlineSearch />
                     </Link>
                 </Button>
-                <div className="flex gap-2 md:order-2">
+                <div className="flex gap-1 md:order-2">
                     {/* language selector */}
-                    <div className="flex center border rounded-xl ">
+                    <div className="flex center border rounded-lg px-1 py-1">
                         <Dropdown inline label={language === 'es' ? '🇪🇸' : language === 'en' ? '🇬🇧' : '🇮🇹'}>
                             <Dropdown.Item onClick={() => setLanguage('es')} className="flex items-center gap-2">
                                 🇪🇸
@@ -130,7 +133,7 @@ const Header = () => {
                             </Dropdown.Item>
                         </Dropdown>
                     </div>
-                    <Button className='w-12 h-10 sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}>
+                    <Button className='w-10 h-10 sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}>
                         {theme === 'light' ? <FaMoon /> : <FaSun />}
                     </Button>
                     {currentUser ? (
