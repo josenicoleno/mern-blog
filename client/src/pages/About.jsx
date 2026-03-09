@@ -53,9 +53,9 @@ export default function About() {
         { name: "PostgreSQL", icon: DiPostgresql }
       ],
       langList: [
-        "Español: Nativo",
-        "Inglés: Avanzado",
-        "Italiano: Avanzado"
+        { flag: "🇪🇸", language: "Spanish", level: "Native" },
+        { flag: "🇬🇧", language: "English", level: "Advanced" },
+        { flag: "🇮🇹", language: "Italian", level: "Advanced" }
       ]
     },
     en: {
@@ -98,9 +98,9 @@ export default function About() {
         { name: "PostgreSQL", icon: DiPostgresql }
       ],
       langList: [
-        "Spanish: Native",
-        "English: Advanced",
-        "Italian: Advanced"
+        { flag: "🇪🇸", language: "Spanish", level: "Native" },
+        { flag: "🇬🇧", language: "English", level: "Advanced" },
+        { flag: "🇮🇹", language: "Italian", level: "Advanced" }
       ]
     },
     it: {
@@ -143,9 +143,9 @@ export default function About() {
         { name: "PostgreSQL", icon: DiPostgresql }
       ],
       langList: [
-        "Spanish: Native",
-        "English: Advanced",
-        "Italian: Advanced"
+        { flag: "🇪🇸", language: "Spanish", level: "Native" },
+        { flag: "🇬🇧", language: "English", level: "Advanced" },
+        { flag: "🇮🇹", language: "Italian", level: "Advanced" }
       ]
     }
   };
@@ -206,16 +206,20 @@ export default function About() {
           <div className='md:col-span-1'>
             <h2 className='text-2xl font-semibold mb-4'>{t.summary}</h2>
             <div className='mb-6'>
-              <h3 className='text-xl font-medium mb-2'>{t.contact}</h3>
+              <h3 className='text-xl font-medium mb-2 text-teal-500 underline'>{t.contact}</h3>
               <ul className='space-y-2'>
                 <li><strong>Email:</strong> josenicoleno@hotmail.com</li>
-                <li><strong>Teléfono:</strong> +39 3428360088</li>
+                <li><strong>Teléfono: </strong>+39 3428360088</li>
                 <li><strong>LinkedIn:</strong> linkedin.com/in/jose-nicoleno/</li>
                 <li><strong>GitHub:</strong> github.com/josenicoleno</li>
               </ul>
             </div>
             <div className='mb-6'>
-              <h3 className='text-xl font-medium mb-2'>{t.technologies}</h3>
+              <h3 className='text-xl font-medium mb-2 text-teal-500 underline'>{t.title}</h3>
+              <div dangerouslySetInnerHTML={{ __html: about }} />
+            </div>
+            <div className='mb-6'>
+              <h3 className='text-xl font-medium mb-2 text-teal-500 underline'>{t.technologies}</h3>
               <ul className='grid grid-cols-2 gap-2'>
                 {t.techList.map((tech, index) => (
                   <li key={index} className='flex items-center'>
@@ -225,11 +229,11 @@ export default function About() {
                 ))}
               </ul>
             </div>
-            <div>
-              <h3 className='text-xl font-medium mb-2'>{t.languages}</h3>
-              <ul className='space-y-2'>
+            <div className='mb-6'>
+              <h3 className='text-xl font-medium mb-2 text-teal-500 underline'>{t.languages}</h3>
+              <ul className='flex items-center gap-4'>
                 {t.langList.map((lang, index) => (
-                  <li key={index}>{lang}</li>
+                  <li key={index} className="flex items-center"> {lang.flag} {lang.level}</li>
                 ))}
               </ul>
             </div>

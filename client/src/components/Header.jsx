@@ -133,7 +133,7 @@ const Header = () => {
                             </Dropdown.Item>
                         </Dropdown>
                     </div>
-                    <Button className='w-10 h-10 sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}>
+                    <Button className='w-12 h-10 sm:inline' color='gray' pill onClick={() => dispatch(toggleTheme())}>
                         {theme === 'light' ? <FaMoon /> : <FaSun />}
                     </Button>
                     {currentUser ? (
