@@ -33,7 +33,7 @@ app.use("/api/param", paramRoutes);
 
 const __html = path.resolve();
 app.use(express.static(path.join(__html, "/client/dist")));
-app.get("*", (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__html, "/client/dist/index.html"));
 });
 
